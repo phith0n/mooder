@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}订单详情{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+  <div class="am-u-sm-centered">
+  <h2>订单详情</h2>
+  <hr>
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          礼物名
+      </div>
+      <div class="am-u-sm-10">
+          {{ object.gift.name }}
+      </div>
+  </div>  <hr>
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          下单时间
+      </div>
+      <div class="am-u-sm-10">
+          {{ object.created_time|date:"Y-m-d H:i:s" }}
+      </div>
+  </div>  <hr>
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          价格
+      </div>
+      <div class="am-u-sm-10">
+          {{ object.cost }} 金币
+      </div>
+  </div>  <hr>
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          是否发货
+      </div>
+      <div class="am-u-sm-10">
+          <strong>{{ object.delivery | yesno:'<span class="am-text-success">已发货</span>,<span class="am-text-danger">未发货</span>' | safe }}</strong>
+      </div>
+  </div><hr>
+  {% if object.delivery %}
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          发货时间
+      </div>
+      <div class="am-u-sm-10">
+          {{ object.delivery_time|date:"Y-m-d H:i:s" }}
+      </div>
+  </div><hr>
+  {% endif %}
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          收获地址
+      </div>
+      <div class="am-u-sm-10">
+          {{ object.address }}
+      </div>
+  </div><hr>
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          备注
+      </div>
+      <div class="am-u-sm-10">
+          <p>
+              {{ object.remark | linebreaksbr }}
+          </p>
+      </div>
+  </div><hr>
+  {% if object.delivery %}
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          管理员回复
+      </div>
+      <div class="am-u-sm-10">
+          <p>
+              {{ object.reply | linebreaksbr }}
+          </p>
+      </div>
+  </div><hr>
+  {% endif %}
+  <a href="{% url 'archive:profile-order' %}" class="am-btn am-btn-primary">返回</a>
+
+  </div>
+</div>
+</div>
+{% endblock %}

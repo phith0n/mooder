@@ -1,0 +1,33 @@
+{% extends 'management/base.html' %}
+{% load bootstrap3 %}
+
+{% block subject %}编辑文章 《{{ post.title }}》{% endblock %}
+
+{% block body %}
+<form method="post" class="form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <a href="javascript:history.back(-1)" class="btn btn-default">返回</a>
+        <a href="{{ object.get_absolute_url }}" class="btn btn-info" target="_blank">预览</a>
+        <button type="submit" class="btn btn-primary">
+            <span class="fa-edit fa"></span> 修改
+        </button>
+        {% ifequal post.verify 'wait' %}
+        <button type="submit" onclick="return submit_and_verify()" class="btn btn-primary">
+            <span class="fa-star fa"></span> 修改并审核
+        </button>
+        {% endifequal %}
+    {% endbuttons %}
+    <input type="hidden" name="return_url" value="{{ request.META.HTTP_REFERER }}">
+</form>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript">
+function submit_and_verify() {
+    $('[name="return_url"]').val('{% url 'management-post-verify' pk=object.id %}');
+    return true;
+}
+</script>
+{% endblock %}

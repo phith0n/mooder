@@ -1,0 +1,90 @@
+{% extends 'management/base.html' %}
+{% load bootstrap3 %}
+{% load admin_helper %}
+
+{% block subject %}礼品订单详情{% endblock %}
+
+{% block body %}
+<div class="custom-list">
+<div class="row">
+    <div class="col-sm-2">
+        礼品
+    </div>
+    <div class="col-sm-10">
+        {{ object.gift.name }}
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-sm-2">
+        购买者
+    </div>
+    <div class="col-sm-10">
+        {{ object.buyer.nickname }}
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        金额
+    </div>
+    <div class="col-sm-10">
+        {{ object.cost }}
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-sm-2">
+        收获地址
+    </div>
+    <div class="col-sm-10">
+        {{ object.address }}
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        备注
+    </div>
+    <div class="col-sm-10">
+        <p>{{ object.remark | linebreaksbr }}</p>
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        是否发货
+    </div>
+    <div class="col-sm-10">
+        <strong>{{ object.delivery | yesno:'<span class="text-success">已发货</span>,<span class="text-danger">未发货</span>' | safe }}</strong>
+    </div>
+</div><hr>
+{% if object.delivery %}
+<div class="row">
+    <div class="col-sm-2">
+        发货时间
+    </div>
+    <div class="col-sm-10">
+        {{ object.delivery_time | date:'Y-m-d H:i:s' }}
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        管理员回复
+    </div>
+    <div class="col-sm-10">
+        <p>{{ object.reply | linebreaksbr }}</p>
+    </div>
+</div><hr>
+{% endif %}
+<form method="post" class="form" enctype="multipart/form-data">
+{% bootstrap_form form %}
+{% buttons %}
+    <a href="javascript:history.back(-1)" class="btn btn-info">返回</a>
+    <button type="submit" class="btn btn-primary">
+         <span class="fa-send fa"></span> 提交
+    </button>
+{% endbuttons %}
+{% csrf_token %}
+</form>
+
+</div>
+
+{% endblock %}

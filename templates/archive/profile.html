@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load template_helper %}
+
+{% block title %}{{ member.nickname }} 的个人中心{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+    <div class="am-u-sm-centered">
+    <div class="am-panel am-panel-default">
+      <div class="am-panel-hd">
+        <h3 class="am-panel-title am-fl">{{ member.nickname }} 的个人中心</h3>
+        {% if request.user.id == member.id %}
+        <a class="am-btn am-btn-danger am-btn-xs am-fr" href="{% url 'archive:profile-edit' %}">设置</a>
+        {% endif %}
+        <div class="am-cf"></div>
+      </div>
+      <div class="am-panel-bd am-g">
+          <div class="am-u-sm-1">
+              <img src="{{ member.get_mugshot_url }}" alt="mugshot" width="100" height="100" class="am-img-thumbnail am-circle">
+          </div>
+          <div class="am-u-sm-11">
+                  <blockquote>
+              {{ member.description | default:'这个人很懒，没有什么简介。' }}
+                  </blockquote>
+              <div class="am-g">
+                  <div class="am-u-sm-4">
+                      Rank： {{ member.rank }}
+                  </div>
+                  <div class="am-u-sm-4">
+                      等级： {{ member.get_level_display | whitehat_tag }}
+                  </div>
+                  <div class="am-u-sm-4">
+                      贡献数： {{ member.author_post.count }}
+                  </div>
+              </div>
+          </div>
+      </div>
+      <table class="am-table am-text-sm am-table-hover am-scrollable-horizontal">
+          <tr class="am-primary">
+            <td width="12%" class="am-hide-sm-down">时间</td>
+            <td>标题</td>
+            <td width="8%" class="am-text-center am-hide-sm-down">等级</td>
+            <td class="am-text-right" width="5%">Rank</td>
+          </tr>
+          {% for post in post_list %}
+          <tr>
+            <td class="am-link-muted am-hide-sm-down">{{ post.created_time | date:'Y-m-d' }}</td>
+            <td>
+                <a href="{{ post.get_absolute_url }}" >{{ post.title }}</a>
+            </td>
+            <td class="am-text-center am-hide-sm-down">{{ post.get_level_display | post_tag }}</td>
+            <td class="am-text-right">{{ post.rank }}</td>
+          </tr>
+          {% endfor %}
+      </table>
+      {% if is_paginated %}
+      <div class="am-panel-footer">
+          {% include 'archive/_pagination.html' %}
+      </div>
+      {% endif %}
+    </div>
+    </div>
+</div>
+</div>
+{% endblock %}

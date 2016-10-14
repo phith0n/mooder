@@ -1,0 +1,20 @@
+{% load template_helper %}
+
+<table class="am-table minos-list am-text-sm am-table-bordered am-table-hover am-scrollable-horizontal">
+  <tr class="null am-primary">
+    <td class="am-hide-sm-down" width="5%">#</td>
+    <td>昵称</td>
+    <td width="12%" class="am-text-center">等级</td>
+    <td width="5%" class="am-text-right am-hide-sm-down">Rank</td>
+  </tr>
+  {% for user in member_list %}
+  <tr class="row">
+    <td class="am-link-muted am-hide-sm-down">{{ forloop.counter }}</td>
+    <td>
+        <a href="{{ user.get_absolute_url }}" >{{ user.nickname }}</a>
+    </td>
+    <td class="am-text-center">{{ user.get_level_display | whitehat_tag }}</td>
+    <td class="am-text-right am-hide-sm-down">{{ user.rank }}</td>
+  </tr>
+  {% endfor %}
+</table>

@@ -1,0 +1,98 @@
+{% extends 'management/base.html' %}
+{% load bootstrap3 %}
+{% load admin_helper %}
+
+{% block subject %}用户详情{% endblock %}
+
+{% block body %}
+<div class="custom-list">
+<div class="row">
+    <div class="col-sm-2">
+        头像
+    </div>
+    <div class="col-sm-10">
+        <img src="{{ member.get_mugshot_url }}" width="100" height="100" class="img-thumbnail img-responsive">
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-sm-2">
+        昵称
+    </div>
+    <div class="col-sm-10">
+        {{ member.nickname }}
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-sm-2">
+        邮箱
+    </div>
+    <div class="col-sm-10">
+        {{ member.email }}
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        贡献
+    </div>
+    <div class="col-sm-10">
+        {{ member.author_post.count }} 个
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-sm-2">
+        等级
+    </div>
+    <div class="col-sm-10">
+        {{ member.get_level_display | whitehat_tag }}
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        Rank
+    </div>
+    <div class="col-sm-10">
+        {{ member.rank }}
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        金币
+    </div>
+    <div class="col-sm-10">
+        {{ member.coin }}
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        激活
+    </div>
+    <div class="col-sm-10">
+        {{ member.is_active | yesno:"是,否" }}
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        创建时间
+    </div>
+    <div class="col-sm-10">
+        {{ member.date_joined | date:"Y-m-d H:i:s" }}
+    </div>
+</div><hr>
+<div class="row">
+    <div class="col-sm-2">
+        上次登录时间
+    </div>
+    <div class="col-sm-10">
+        {{ member.last_login | date:"Y-m-d H:i:s" }}
+    </div>
+</div>
+    <hr>
+    <a href="javascript:history.back(-1)" class="btn btn-default">返回</a>
+    <a href="{% url 'management-user-coin-log' uid=member.id %}" class="btn btn-info">金币日志</a>
+    <a href="{% url 'management-user-coin' uid=member.id %}" class="btn btn-success">奖惩金币</a>
+</div>
+
+{% endblock %}

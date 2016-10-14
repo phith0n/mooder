@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load markup_tags %}
+{% load html_purifier %}
+{% load template_helper %}
+{% load permission %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/code.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+  <div class="am-u-sm-centered">
+      <article class="am-article">
+          <div class="am-article-hd">
+            <h1 class="am-article-title">{{ post.title }}</h1>
+          </div>
+
+          <table class="am-table am-table-bordered ">
+              <tr>
+                  <th>时间</th>
+                  <th>作者</th>
+                  <th>等级</th>
+                  <th>Rank</th>
+              </tr>
+              <tr>
+                  <td>{{ post.created_time | date:'Y-m-d H:i:s' }}</td>
+                  <td><a href="{{ post.author.get_absolute_url }}" class="am-link-muted">{{ post.author.nickname }}</a></td>
+                  <td class="am-{{ post.level | post_tag_color }}">{{ post.get_level_display }}</td>
+                  <td>{{ post.rank }}</td>
+              </tr>
+            </table>
+
+          <div class="am-article-bd">
+            <p class="">{{ post.description | default:'无描述...' | linebreaksbr }}</p>
+              <hr>
+            {% allow_read_post post=post content=post.content|apply_markup:"markdown"|purifier %}
+          </div>
+
+          {% if post.attachment %}
+              <hr>
+              <h2 class="am-margin-top-xs"><i class="am-icon-paperclip"></i> <a href="{{ post.attachment.url }}" class="am-link-muted" target="_blank">附件下载</a></h2>
+          {% endif %}
+      </article>
+
+      <hr>
+      <section class="am-panel am-panel-default">
+          <div class="am-panel-bd am-text-sm">
+            审核评价： {{ post.remark | default:"没有任何评价..." }}
+          </div>
+        </section>
+
+      {% if post.comment_set.count > 0 %}<hr>{% endif %}
+
+      {% for comment in post.comment_set.all %}
+      <article class="am-comment am-margin-top-lg">
+          <a href="{{ comment.author.get_absolute_url }}">
+            <img src="{{ comment.author.get_mugshot_url }}" class="am-comment-avatar" width="48" height="48"/>
+          </a>
+
+          <div class="am-comment-main">
+            <header class="am-comment-hd">
+              <div class="am-comment-meta">
+                <a href="{{ comment.author.get_absolute_url }}" class="am-comment-author">{{ comment.author.nickname }}</a>
+                评论于 <time datetime="{{ comment.created_time }}" title="{{ comment.created_time | date:'Y-m-d H:i:s' }}">{{ comment.created_time | timesince }}</time> 前
+              </div>
+              <div class="am-g am-comment-meta am-g-collapse am-text-right">
+                <div class="am-fr">
+
+                        <form method="post" action="/admin/delcomment">
+                            <a href="del-comment">删除</a>
+                            <input type="hidden" name="comid" value="56f5f5244587033f4e3d2330">
+                            <input type="hidden" name="postid" value="554a2c9a9713962803279371">
+                            <input type="hidden" name="_xsrf" value="2|aa346f27|a8d85f04c885d51a35dc332ba579d00e|1475690840"/>
+                        </form>
+
+                </div>
+                <div class="am-margin-right-xs am-fr">
+                    <a href="javascript:reply('{{ comment.id | escapejs }}', '{{ comment.content | truncatechars:20 | escapejs }}');">回复</a>
+                </div>
+              </div>
+            </header>
+
+            <div class="am-comment-bd">
+              {% if comment.parent %}
+              <blockquote class="am-margin-bottom-sm">回复 {{ comment.parent.author.nickname }} 的评论 “{{ comment.parent.content | truncatechars:50 }}”</blockquote>
+              {% endif %}
+              <p>{{ comment.content | linebreaksbr }}</p>
+            </div>
+          </div>
+      </article>
+      {% endfor %}
+
+      {% if not is_preview %}
+      <hr/>
+      <div class="am-panel-bd am-padding-0">
+        <div id="reply-box"></div>
+        {% for key, value in comment_form.errors.items %}
+        <div class="am-alert am-alert-warning am-text-sm" data-am-alert>
+          {{ key }}： {{ value }}
+        </div>
+        {% endfor %}
+
+        <form class="am-form" method="post">
+            {% for field in comment_form %}
+            {% ifequal field.field.widget.input_type 'hidden' %}
+            {{ field }}
+            {% else %}
+            <div class="am-form-group">
+              {% ifnotequal field.name 'captcha' %}<label>{{ field.label }}</label>{% endifnotequal %}
+              {{ field | css:"am-form-field" }}
+            </div>
+            {% endifequal %}
+            {% endfor %}
+            <div class="am-cf"></div>
+            <button type="submit" class="am-btn am-btn-default am-btn-block am-btn-xs am-margin-top">提交</button>
+            {% csrf_token %}
+        </form>
+      </div>
+      {% endif %}
+
+  </div>
+</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript">
+function escape(txt) {
+    return txt && txt.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function reply(id, touser) {
+    $("#id_parent").val(id);
+    touser = escape('回复 “ ' + touser + ' ”');
+    touser = $('<div class="am-alert am-text-sm" id="my-alert" data-am-alert><button type="button" class="am-close">&times;</button><p>'+touser+'</p></div>')
+    $('#reply-box').html(touser);
+    $('#my-alert').on('closed.alert.amui', function() {
+      $("#id_parent").val('');
+    });
+}
+</script>
+{% endblock %}

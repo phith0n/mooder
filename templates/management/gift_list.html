@@ -1,0 +1,35 @@
+{% extends 'management/base.html' %}
+{% load admin_helper %}
+
+{% block subject %}礼物{% endblock %}
+
+{% block body %}
+<a href="{% url 'management-gift-add' %}" class="btn btn-primary btn-sm">增加</a>
+<hr>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th>价格</th>
+            <th>数量</th>
+            <th>参考链接</th>
+            <th>动作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for object in object_list %}
+        <tr>
+            <td><a href="{{ object.get_absolute_url }}" target="_blank" class="link-muted">{{ object.name }}</a></td>
+            <td>{{ object.price }}</td>
+            <td>{{ object.amount }}</td>
+            <td><a href="{{ object.link }}" target="_blank">访问链接</a></td>
+            <td>
+                <a href="{% url 'management-gift-edit' pk=object.id %}" class="btn btn-primary btn-xs" role="button">编辑</a>
+                <a href="javascript:submit('{% url 'management-gift-delete' pk=object.id %}')" class="btn btn-danger btn-xs confirm-alert" role="button">删除</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    {% include 'management/_pagination.html' %}
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load template_helper %}
+
+{% block title %}修改用户信息{% endblock %}
+
+{% block body %}
+<div class="am-container">
+  <div class="am-g">
+      <div class="am-u-sm-centered">
+          <form class="am-form" id="postform" method="post" enctype="multipart/form-data">
+            <div class="am-g">
+            <div class="am-u-sm-10">
+              <fieldset>
+                {% for field in form %}
+                        <div class="am-form-group am-form-group-sm">
+                        <label>{{ field.label }} &nbsp;
+                        <small>
+                            {% if field.errors %}
+                            <span class="am-text-danger">{{ field.errors | first}}</span>
+                            {% else %}
+                            {{ field.help_text }}
+                            {% endif %}
+                        </small></label>
+                            {{ field | css:"am-form-field" }}
+                        </div>
+                {% endfor %}
+              </fieldset>
+              </div>
+              <div class="am-u-sm-2">
+                  <h3>{{ request.user.nickname }}</h3>
+                <img src="{{ request.user.get_mugshot_url }}" alt="..." class="am-img-thumbnail">
+              </div>
+            </div>
+          {% csrf_token %}
+            <div class="am-btn-group am-fr am-margin-right-lg am-margin-top">
+              <a href="{% url 'password_change' %}" class="am-btn am-btn-primary">修改密码</a>
+              <button type="button" onclick="history.back(-1)" class="am-btn am-btn-default">返回</button>
+              <button type="submit" class="am-btn am-btn-default">提交</button>
+            </div>
+          </form>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/plupload/2.1.9/plupload.full.min.js"
+        integrity="sha256-qahd1Wtww76O7gf6fNCUeVDRdDMq5xefzOm2vG4Fdl4=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.min.js"
+        integrity="sha256-S20kSlaai+/AuQHj3KjoLxmxiOLT5298YvzpaTXtYxE=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+window.onload = function () {
+    var PluploadHandler = function( $, plupload ) {
+        var self = this;
+        this.plupload = plupload;
+        // Custom example logic
+        this.uploader = new plupload.Uploader({
+            runtimes : 'html5,flash',
+            browse_button : document.getElementById('upbtn'),
+            url : "{% url 'archive:upload-images' %}",
+            flash_swf_url : "//cdnjs.cloudflare.com/ajax/libs/plupload/2.1.9/Moxie.swf",
+            filters : {
+                max_file_size : '5mb',
+                mime_types: [
+                    {title : "Image files", extensions : "jpg,jpeg,gif,png,bmp"}
+                ]
+            },
+            headers: {
+                'X-CSRFToken': Cookies.get('csrftoken')
+            },
+            init: {
+                Error: function(up, err) {
+                    console.log("\nError #" + err.code + ": " + err.message);
+                }
+            }
+        });
+        this.uploader.init();
+        this.uploader.bind("FilesAdded", function (up, files) {
+            console.log("+ handlePluploadFilesAdded");
+            up.start();
+        });
+        this.uploader.bind("FileUploaded", function (up, file, res) {
+            var f = JSON.parse(res.response);
+            if(f.status == 'success') {
+                var img = "\n![](" + f.url + ")\n";
+                editor.replaceSelection(img)
+            }
+        });
+    };
+    var pluploadHandler = new PluploadHandler(jQuery, plupload);
+};
+</script>
+{% endblock %}

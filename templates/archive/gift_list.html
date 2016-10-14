@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}礼品列表{% endblock %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/incontent.css' %}">
+{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+  <div class="am-u-sm-centered">
+  <h2>礼品兑换</h2>
+  <hr>
+    <ul class="am-avg-sm-4 am-thumbnails">
+      {% for object in object_list %}
+      <li>
+          <div class="pic">
+              <img class="am-thumbnail pic-image am-img-responsive" src="{{ object.get_photo_url }}" />
+              <span class="pic-caption come-left">
+                  <a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
+                  <p>剩余数量： {{ object.amount }}</p>
+                  <p>价格： {{ object.price }}</p>
+              </span>
+          </div>
+      </li>
+      {% endfor %}
+    </ul>
+  {% include 'archive/_pagination.html' %}
+  </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %}{{ website.title }}{% endblock %}</title>
+		<!-- Description, Keywords and Author -->
+		<meta name="description" content="Your description">
+		<meta name="keywords" content="Your,Keywords">
+		<meta name="author" content="ResponsiveWebInc">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css"
+              integrity="sha256-GHW2S7IZAQe8+YkyL99LyDj1zdWXSPOG+JZafCtKiSc=" crossorigin="anonymous" />
+		<!-- Font awesome CSS -->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css"
+              integrity="sha256-AIodEDkC8V/bHBkfyxzolUMw57jeQ9CauwhVW6YJ9CA=" crossorigin="anonymous" />
+
+
+		<!-- Main CSS -->
+		<link href="{% static 'css/sign.css' %}" rel="stylesheet">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="#">
+	</head>
+
+	<body>
+
+    {% block body %}
+    {% endblock %}
+
+		<!-- Javascript files -->
+		<!-- jQuery -->
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<!-- Bootstrap JS -->
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"
+                integrity="sha256-+h0g0j7qusP72OZaLPCSZ5wjZLnoUUicoxbvrl14WxM=" crossorigin="anonymous"></script>
+		<!-- Placeholder JS -->
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/placeholders/4.0.1/placeholders.min.js"
+                integrity="sha256-TBQfNo2hFSrySAh5TFAbZb5m8VUOGwsvbBBXj7lF6vI=" crossorigin="anonymous"></script>
+	</body>
+</html>

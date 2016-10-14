@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}403 Permission deny!{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+    <div class="am-u-sm-centered">
+          <h1 class="am-text-center am-text-danger am-margin-top-lg">403 Permission deny!</h1>
+          <p class="am-text-center">{{ errors }}</p>
+        <pre class="page-404 am-text-center">
+          .----.
+       _.'__    `.
+   .--($)($$)---/#\
+ .' @          /###\
+ :         ,   #####
+  `-..__.-' _.-\###/
+        `;_:    `"'
+      .'"""""`.
+     /,  ya ,\\
+    //  403!  \\
+    `-._______.-'
+    ___`. | .'___
+   (______|______)
+        </pre>
+    </div>
+</div>
+</div>
+{% endblock %}

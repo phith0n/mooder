@@ -1,0 +1,107 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>{% block title %}{% endblock %} | {{ website.title }}</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+
+  <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+  <!--
+  <link rel="canonical" href="http://www.example.com/">
+  -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css"
+        integrity="sha256-K3Njjl2oe0gjRteXwX01fQD5fkk9JFFBdUHy/h38ggY=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.min.css"
+        integrity="sha256-QKNFQcDYZ0j2Vh4QhAzg711B2Ps81YW5Lte6SDm8NYM=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="{% static 'css/archive.css' %}">
+  {% block header %}{% endblock %}
+</head>
+<body>
+<header class="am-topbar am-g">
+<div class="am-container">
+  <div class="am-u-sm-centered">
+  <h1 class="am-topbar-brand">
+    <a href="#">{{ website.title }}</a>
+  </h1>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}">
+      <span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span>
+  </button>
+
+  <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+      <li {% if view.name == 'archive:index' %}class="am-active"{% endif %}><a href="{% url 'archive:index' %}">首页</a></li>
+      <li {% if view.name == 'archive:list' %}class="am-active"{% endif %}><a href="{% url 'archive:list' %}">贡献列表</a></li>
+      <li {% if view.name == 'archive:user' %}class="am-active"{% endif %}><a href="{% url 'archive:user' %}">排行榜</a></li>
+      <li {% if view.name == 'archive:shop' %}class="am-active"{% endif %}><a href="{% url 'archive:shop' %}">礼品中心</a></li>
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          内部应用 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          {% for link in links %}
+            <li><a href="{{ link.link }}" target="_blank">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+
+    <div class="am-topbar-right">
+      <a class="am-btn am-btn-primary am-topbar-btn am-btn-sm" href="{% url 'archive:add' %}">提交贡献</a>
+    </div>
+
+    <div class="am-topbar-right">
+      <div class="am-dropdown" data-am-dropdown="{boundary: '.am-topbar'}">
+        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-dropdown-toggle" data-am-dropdown-toggle>用户中心 <span class="am-icon-caret-down"></span></button>
+        <ul class="am-dropdown-content">
+            <li><a href="{% url 'archive:profile-me' %}">个人主页</a></li>
+            <li><a href="{% url 'archive:profile-post' %}">我的贡献</a></li>
+            <li><a href="{% url 'archive:profile-detail' %}">我的资料</a></li>
+            <li><a href="{% url 'archive:profile-order' %}">订单列表</a></li>
+            {% if request.user.is_auditor or request.user.is_staff %}
+            <li><a href="{% url 'management-index' %}">后台管理</a></li>
+            {% endif %}
+            <li><a href="{% url 'logout' %}">退出</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  </div>
+</div>
+</header>
+
+{% block body %}
+{% endblock %}
+
+<footer class="footer" id="footer">
+
+</footer>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"
+        integrity="sha256-eRwp3uC/q93u9yxthUKaHijY5a0zNm5oqPcU5Qfpv+0=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% url 'archive:js' %}"></script>
+{% block footer %}{% endblock %}
+</body>
+</html>

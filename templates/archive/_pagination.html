@@ -1,0 +1,21 @@
+<ul class="am-pagination am-pagination-right">
+  {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+  {% else %}
+      <li class="am-disabled"><span>&laquo;</span></li>
+  {% endif %}
+
+  {% for page in page_obj.pages %}
+    {% if page %}
+    <li {% ifequal page_obj.number page %}class="am-active"{% endifequal %}><a href="?page={{ page }}">{{ page }}</a></li>
+    {% else %}
+    <li class="am-disabled"><span>...</span></li>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+  {% else %}
+      <li class="am-disabled"><span>&raquo;</span></li>
+  {% endif %}
+</ul>

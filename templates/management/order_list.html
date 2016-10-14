@@ -1,0 +1,42 @@
+{% extends 'management/base.html' %}
+{% load admin_helper %}
+
+{% block subject %}礼品订单{% endblock %}
+
+{% block body %}
+<a href="{% url 'management-order-wait-list' %}" class="btn btn-primary btn-sm">未发货</a>
+<hr>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>订单</th>
+            <th>时间</th>
+            <th>礼品</th>
+            <th>金额</th>
+            <th>发货</th>
+            <th>用户</th>
+            <th>动作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for object in object_list %}
+        <tr>
+            <td>#{{ object.id }}</td>
+            <td>{{ object.created_time | date:'Y-m-d H:i:s' }}</td>
+            <td>{{ object.gift.name }}</td>
+            <td>{{ object.cost }}</td>
+            <td>{{ object.delivery | yesno:'已发货,未发货' }}</td>
+            <td><a href="{{ object.buyer.get_absolute_url }}" target="_blank" class="link-muted">{{ object.buyer.nickname }}</a></td>
+            <td>
+                {% if not object.delivery %}
+                <a href="{% url 'management-order-detail' pk=object.id %}" class="btn btn-success btn-xs" role="button">查看并发货</a>
+                {% else %}
+                <a href="{% url 'management-order-detail' pk=object.id %}" class="btn btn-info btn-xs" role="button">查看</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    {% include 'management/_pagination.html' %}
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'management/base.html' %}
+{% load admin_helper %}
+
+{% block subject %}邀请码列表{% endblock %}
+
+{% block body %}
+<a href="javascript:submit('{% url 'management-generate-invitecode' %}');" class="btn btn-primary btn-sm">生成</a>
+    <hr>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>生成时间</th>
+            <th>使用时间</th>
+            <th>邀请码</th>
+            <th>生成人</th>
+            <th>使用者</th>
+            <th>使用</th>
+            <th>动作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for code in object_list %}
+        <tr>
+            <td>{{ code.created_time | date:"Y-m-d H:i:s" }}</td>
+            <td>{{ code.used_time | date:"Y-m-d H:i:s" | default:"尚未使用" }}</td>
+            <td>
+                {% if not code.used %}
+                <span class="text-success">{{ code.code }}</span>
+                {% else %}
+                <span class="text-danger">{{ code.code }}</span>
+                {% endif %}
+            </td>
+            <td><a href="{{ code.createdby.get_absolute_url }}" target="_blank">{{ code.createdby.nickname }}</a></td>
+            <td><a href="{{ code.usedby.get_absolute_url | default:"javascript:;" }}" target="_blank">{{ code.usedby.nickname | default:"尚未使用" }}</a></td>
+            <td>{{ code.used | yesno:"是,否" }}</td>
+            <td>
+                {% if not code.used %}
+                <a href="javascript:submit('{% url 'management-delete-invitecode' pk=code.id %}');" class="btn btn-danger btn-xs confirm-alert" role="button">删除</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    {% include 'management/_pagination.html' %}
+{% endblock %}

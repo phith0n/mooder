@@ -1,0 +1,10 @@
+.label.label-secondary {
+  background-color: #5bc0de;
+}
+a.link-muted {
+  color: #666;
+}
+a.link-muted:hover {
+  color: red;
+  text-decoration: none;
+}

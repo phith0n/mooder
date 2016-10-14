@@ -1,0 +1,163 @@
+{% extends 'management/base.html' %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-eye fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ wait_count }}</div>
+                            <div>待审核贡献</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'management-post-list-verify' %}">
+                    <div class="panel-footer">
+                        <span class="pull-left">查看详情</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-th-large fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ all_count }}</div>
+                            <div>全部贡献</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'management-post-list' %}">
+                    <div class="panel-footer">
+                        <span class="pull-left">查看详情</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-shopping-cart fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ gift_count }}</div>
+                            <div>待发货礼物</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'management-order-wait-list' %}">
+                    <div class="panel-footer">
+                        <span class="pull-left">查看详情</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-users fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ user_count }}</div>
+                            <div>用户总数</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'management-user-list' %}">
+                    <div class="panel-footer">
+                        <span class="pull-left">查看详情</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <h3>统计图表</h3>
+    <div id="analysischart" style="height: 250px;"></div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            <h3>用户等级</h3>
+            <div id="userchart"></div>
+        </div>
+        <div class="col-xs-6">
+            <h3>贡献等级</h3>
+            <div id="postchart"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block header %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"
+      integrity="sha256-szHusaozbQctTn4FX+3l5E0A5zoxz7+ne4fr8NgWJlw=" crossorigin="anonymous" />
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.2.6/raphael.min.js"
+        integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
+        integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+window.onload = function () {
+    new Morris.Area({
+      // ID of the element in which to draw the chart.
+      element: 'analysischart',
+      // Chart data records -- each entry in this array corresponds to a point on
+      // the chart.
+      data: [
+          {% for t, c in analysis_chart.items %}
+              {% with pass_n=c.pass|default:0 failed_n=c.failed|default:0 %}
+                { day: '{{ t | escapejs }}', amount: parseInt('{{ pass_n | add:failed_n | escapejs }}') , pass: parseInt('{{ pass_n | escapejs }}'), failed: parseInt('{{ failed_n | escapejs }}') },
+              {% endwith %}
+          {% endfor %}
+      ],
+      // The name of the data record attribute that contains x-values.
+      xkey: 'day',
+      // A list of names of data record attributes that contain y-values.
+      ykeys: ['amount', 'pass', 'failed'],
+      // Labels for the ykeys -- will be displayed when you hover over the
+      // chart.
+      labels: ['提交总数', '通过数', '忽略数'],
+      xLabels: 'day',
+      lineColors: ['rgb(38,119,181)', 'rgb(77, 167, 77)', 'rgb(168,180,189)'],
+    });
+    Morris.Donut({
+      element: 'userchart',
+      data: [
+          {% for chart in user_chart %}
+          {label: '{{ chart.level | escapejs }}', value: parseInt('{{ chart.count | escapejs }}')},
+          {% endfor %}
+      ],
+    });
+    Morris.Donut({
+      element: 'postchart',
+      data: [
+          {% for chart in post_chart %}
+          {label: '{{ chart.level | escapejs }}', value: parseInt('{{ chart.count | escapejs }}')},
+          {% endfor %}
+      ],
+    });
+}
+</script>
+{% endblock %}

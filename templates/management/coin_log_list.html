@@ -1,0 +1,36 @@
+{% extends 'management/base.html' %}
+{% load admin_helper %}
+
+{% block subject %}{{ member.nickname }} 的金币日志{% endblock %}
+
+{% block body %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>时间</th>
+            <th>变化</th>
+            <th>变化后金币数</th>
+            <th>操作人</th>
+            <th>说明</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for log in object_list %}
+        <tr>
+            <td>{{ log.created_time | date:"Y-m-d H:i:s" }}</td>
+            <td>
+                {% if log.coin >= 0 %}
+                增加 {{ log.coin }} 个
+                {% else %}
+                减少 {{ log.coin | absolute }}个
+                {% endif %}
+            </td>
+            <td>{{ log.rest }}</td>
+            <td>{{ log.admin.nickname | default:"系统" }}</td>
+            <td>{{ log.message | default:"无说明" }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    {% include 'management/_pagination.html' %}
+{% endblock %}

@@ -1,0 +1,236 @@
+/*------------------------------------------|
+|   Title: InContent;                       |
+|   Author: Bruno Rodrigues;                |
+|   URL: bit.ly/BrunoTw                     |
+|------------------------------------------*/
+/*Animation Effect*/
+@keyframes anima {
+  from {
+    margin-top: -50px;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+  }
+  to {
+    margin: auto;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes anima {
+  from {
+    margin-left: -20px;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    opacity: 0;
+  }
+  to {
+    margin-left: 10px;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
+  }
+}
+.clearfix:before,
+.clearfix:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+/*--- CONTENT STRUCTURE ---*/
+.pic {
+  max-width: 300px;
+  max-height: 200px;
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+  display: inline-block;
+  animation: anima 2s;
+  -webkit-animation: anima 2s;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.pic-3d {
+  -webkit-perspective: 500;
+  -webkit-transform-style: preserve-3d;
+}
+.pic-caption {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(231, 76, 60, 0.92);
+  padding: 10px;
+  text-align: center;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  opacity: 0;
+  cursor: default;
+}
+.pic-caption a,
+.pic-caption p {
+  color: #e7e7e7;
+}
+.pic-caption a:hover {
+  font-weight: bold;
+}
+.pic-image {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.pic:hover .pic-image {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+.pic-title {
+  font-size: 1.8em;
+}
+/*All classes with similar attribute*/
+a,
+a:hover,
+.pic .pic-image,
+.pic-caption,
+.pic:hover .pic-caption,
+.pic:hover img {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+/*--- EFFECTS AND TRANSITIONS ---*/
+.pic:hover .bottom-to-top,
+.pic:hover .top-to-bottom,
+.pic:hover .left-to-right,
+.pic:hover .right-to-left,
+.pic:hover .rotate-in,
+.pic:hover .rotate-out,
+.pic:hover .open-up,
+.pic:hover .open-down,
+.pic:hover .open-left,
+.pic:hover .open-right,
+.pic:hover .come-left,
+.pic:hover .come-right {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+/*Bottom to Top*/
+.bottom-to-top {
+  top: 50%;
+  left: 0;
+}
+.pic:hover .bottom-to-top {
+  top: 0;
+  left: 0;
+}
+/*Top to Bottom*/
+.top-to-bottom {
+  bottom: 50%;
+  left: 0;
+}
+.pic:hover .top-to-bottom {
+  left: 0;
+  bottom: 0;
+}
+/*Left to Right*/
+.left-to-right {
+  top: 0;
+  right: 50%;
+}
+.pic:hover .left-to-right {
+  right: 0;
+  top: 0;
+}
+/*Right to Left*/
+.right-to-left {
+  top: 0;
+  left: 50%;
+}
+.pic:hover .right-to-left {
+  left: 0;
+  top: 0;
+}
+/*Rotate in*/
+.rotate-in {
+  transform: rotate(90deg) scale(0.1);
+  top: 0;
+  left: 0;
+}
+.pic:hover .rotate-in {
+  transform: rotate(360deg) scale(1);
+}
+/*Rotate out*/
+.rotate-out {
+  transform: rotate(90deg) scale(3);
+  top: 0;
+  left: 0;
+}
+.pic:hover .rotate-out {
+  transform: rotate(360deg) scale(1);
+}
+/*Open Up*/
+.open-down {
+  transform: rotateX(-180deg);
+  top: 0;
+  left: 0;
+}
+.pic:hover .open-down {
+  transform: rotateX(0);
+}
+/*Open down*/
+.open-up {
+  transform: rotateX(180deg);
+  top: 0;
+  left: 0;
+}
+.pic:hover .open-up {
+  transform: rotateX(0);
+}
+/*Open Left*/
+.open-left {
+  transform: rotateY(180deg);
+  left: 0;
+  top: 0;
+}
+.pic:hover .open-left {
+  transform: rotateY(0deg);
+}
+/*Open Right*/
+.open-right {
+  transform: rotateY(-180deg);
+  left: 0;
+  top: 0;
+}
+.pic:hover .open-right {
+  transform: rotateY(0deg);
+}
+/*Open Come In*/
+.come-left {
+  transform: rotateY(90deg) rotateX(90deg);
+  left: 0;
+  top: 0;
+}
+.pic:hover .come-left {
+  transform: rotateY(0) rotateX(0);
+}
+/*Open Come Out*/
+.come-right {
+  transform: rotateY(-90deg) rotateX(-90deg);
+  left: 0;
+  top: 0;
+}
+.pic:hover .come-right {
+  transform: rotateY(0) rotateX(0);
+}
+@media screen and (max-width: 560px) {
+  .pic {
+    max-width: 400px;
+    max-height: 300px;
+    display: block;
+    animation: none;
+    margin: 10px auto;
+  }
+}

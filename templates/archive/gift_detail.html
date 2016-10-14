@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}礼品 {{ object.name }}{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+  <div class="am-u-sm-centered">
+  <h2>礼品 {{ object.name }}</h2>
+  <hr>
+      {% if object.photo %}
+      <img src="{{ object.get_photo_url }}" style="max-height: 300px;" alt="{{ object.name }}" class="am-img-responsive am-img-thumbnail">
+      <hr>
+      {% endif %}
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          名称
+      </div>
+      <div class="am-u-sm-10">
+          {{ object.name }}
+      </div>
+  </div>  <hr>
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          价格
+      </div>
+      <div class="am-u-sm-10">
+          {{ object.price }} 金币
+      </div>
+  </div>  <hr>
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          剩余数量
+      </div>
+      <div class="am-u-sm-10">
+          <span class="am-text-danger"><strong>{{ object.amount }}</strong></span> 个
+      </div>
+  </div><hr>
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          参考链接
+      </div>
+      <div class="am-u-sm-10">
+          <a href="{{ object.link | default:'javascript:;' }}" target="_blank">{{ object.link | default:"没有参考链接" }}</a>
+      </div>
+  </div><hr>
+  <div class="am-g">
+      <div class="am-u-sm-2">
+          描述
+      </div>
+      <div class="am-u-sm-10">
+          <p>
+              {{ object.description | linebreaksbr }}
+          </p>
+      </div>
+  </div>
+      <hr>
+
+  <a href="javascript:history.back(-1)" class="am-btn am-btn-secondary">返回</a>
+  <a href="{% url 'archive:order-create' gift_id=object.id %}" class="am-btn am-btn-primary">购买</a>
+
+
+  </div>
+</div>
+</div>
+{% endblock %}

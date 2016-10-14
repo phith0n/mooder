@@ -1,0 +1,14 @@
+{% extends 'management/base.html' %}
+
+{% block subject %}有错误发生了！{% endblock %}
+
+{% block body %}
+<div class="col-lg-12">
+    <div class="jumbotron">
+        <h1>你没有权限访问这个页面！</h1>
+        <p>{{ errors }}</p>
+        <p><a class="btn btn-primary btn-lg" href="javascript:history.back(-1)" role="button">返回</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

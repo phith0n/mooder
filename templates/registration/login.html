@@ -1,0 +1,53 @@
+{% extends 'registration/base.html' %}
+{% load template_helper %}
+
+{% block title %}
+登录 | {{ website.title }}
+{% endblock %}
+{% block body %}
+<!-- UI - X Starts -->
+<div class="ui-331">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2 col-mob">
+                <!-- Outer Starts -->
+                <div class="ui-outer">
+                    <!-- Form -->
+                    <div class="ui-form">
+                        <!-- Heading -->
+                        <h4>登录 - {{ website.title }}</h4>
+                        <!-- Form -->
+                        {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">{{ form.errors | first_error }}</div>
+                        {% endif %}
+                        <form class="form" method="post">
+                            {% for line in form %}
+                                <div class="form-group">
+                                    {{ line | css:"form-control" | placeholder }}
+                                </div>
+                            {% endfor %}
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <!-- Checkbox -->
+                                        <input type="checkbox"> 记住我
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- Log In Button -->
+                                <button type="submit" class="btn btn-red">登录</button>
+                                <a style="margin-left: 10px" href="{% url 'registration_register' %}">点击注册</a>
+                                <a style="margin-left: 10px" href="{% url 'password_reset' %}">忘记密码？</a>
+                            </div>
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+                <!-- Outer Ends -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- UI - X Ends -->
+{% endblock %}

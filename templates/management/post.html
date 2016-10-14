@@ -1,0 +1,46 @@
+{% extends 'management/base.html' %}
+{% load admin_helper %}
+
+{% block subject %}贡献列表{% endblock %}
+
+{% block body %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>作者</th>
+            <th>标题</th>
+            <th>状态</th>
+            <th>公开</th>
+            <th>等级</th>
+            <th>Rank</th>
+            <th>时间</th>
+            <th>动作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for post in post_list %}
+        <tr>
+            <td><a href="{% url 'management-user-detail' pk=post.author.id %}" class="link-muted">{{ post.author.nickname }}</a></td>
+            <td><a class="link-muted" href="{{ post.get_absolute_url }}" target="_blank">{{ post.title }}</a></td>
+            <td>{{ post.get_verify_display }}</td>
+            <td>{{ post.get_visible_display }}</td>
+            <td>{{ post.get_level_display | post_tag }}</td>
+            <td>{{ post.rank }}</td>
+            <td>{{ post.created_time | date:'Y-m-d H:i' }}</td>
+            <td>
+                {% if post.verify == 'wait' %}
+                <a href="{% url 'management-post-verify' pk=post.id %}" class="btn btn-success btn-xs" role="button">审核</a>
+                <a href="{% url 'management-post-ignore' pk=post.id %}" class="btn btn-warning btn-xs" role="button">忽略</a>
+                {% endif %}
+                <a href="{% url 'management-post-edit' pk=post.id %}" class="btn btn-primary btn-xs" role="button">编辑</a>
+                <a href="javascript:submit('{% url 'management-post-hide' pk=post.id %}')" class="btn btn-danger btn-xs confirm-alert" role="button">删除</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    <form action="" method="post">
+        <input type="hidden" name="">
+    </form>
+    {% include 'management/_pagination.html' %}
+{% endblock %}

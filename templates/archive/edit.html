@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load template_helper %}
+
+{% block title %}编辑贡献{% endblock %}
+
+{% block header %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/codemirror.min.css"
+      integrity="sha256-MdzaXfGXzZdeHw/XEV2LNNycipsLk4uZ0FYzO3hbuvI=" crossorigin="anonymous" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/theme/neat.css" integrity="sha256-WMLC5bxpwvLiouYZo3maC9cKh1TBNxBNqrSjnlP0JQM=" crossorigin="anonymous" />
+{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+  <div class="am-u-sm-centered">
+      <form class="am-form" id="postform" method="post" enctype="multipart/form-data">
+          <fieldset>
+            {% for field in form %}
+            <div class="am-form-group am-form-group-sm am-u-sm-{{ field.view_length }}">
+            <label>{{ field.label }} &nbsp;
+            <small>
+                {% if field.errors %}
+                <span class="am-text-danger">{{ field.errors | first }}</span>
+                {% else %}
+                {{ field.help_text }}
+                {% endif %}
+            </small></label>
+                {{ field | css:"am-form-field" }}
+            </div>
+            {% endfor %}
+          </fieldset>
+      {% csrf_token %}
+        <button class="am-btn am-btn-success am-fl am-margin-left-lg" type="button" id="upbtn">
+            上传图片
+        </button>
+        <div class="am-btn-group am-fr am-margin-right-lg">
+          <button type="button" class="am-btn am-btn-default">返回</button>
+          <a href="javascript:preview()" class="am-btn am-btn-default">预览</a>
+          <a href="javascript:submit()" class="am-btn am-btn-default">提交</a>
+        </div>
+      <input name="preview" value="1" type="hidden">
+      </form>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/codemirror.min.js"
+        integrity="sha256-A/Q5DfSPcuJyVtudS5NJL5+zb6394lr38HC+j9ZXu+Y=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/mode/markdown/markdown.min.js"
+        integrity="sha256-2YdKkqHqf6qDRwHC+2kgT7l5o7dbTrIBP/veO3fYQ8Y=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/plupload/2.1.9/plupload.full.min.js"
+        integrity="sha256-qahd1Wtww76O7gf6fNCUeVDRdDMq5xefzOm2vG4Fdl4=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+window.onload = function () {
+    var textarea = document.getElementById("id_content");
+    var editor = CodeMirror.fromTextArea(textarea, {
+        lineNumbers: true,
+        mode: {
+            name: 'markdown',
+            underscoresBreakWords: false
+        },
+        theme: "neat",
+        indentUnit: 4,
+        lineWrapping: true
+    });
+    var PluploadHandler = function( $, plupload ) {
+        var self = this;
+        this.plupload = plupload;
+        // Custom example logic
+        this.uploader = new plupload.Uploader({
+            runtimes : 'html5,flash',
+            browse_button : document.getElementById('upbtn'),
+            url : "{% url 'archive:upload-images' %}",
+            flash_swf_url : "//cdnjs.cloudflare.com/ajax/libs/plupload/2.1.9/Moxie.swf",
+            filters : {
+                max_file_size : '5mb',
+                mime_types: [
+                    {title : "Image files", extensions : "jpg,jpeg,gif,png,bmp"}
+                ]
+            },
+            headers: {
+                'X-CSRFToken': $.AMUI.utils.cookie.get('csrftoken')
+            },
+            init: {
+                Error: function(up, err) {
+                    console.log("\nError #" + err.code + ": " + err.message);
+                }
+            }
+        });
+        this.uploader.init();
+        this.uploader.bind("FilesAdded", function (up, files) {
+            console.log("+ handlePluploadFilesAdded");
+            up.start();
+        });
+        this.uploader.bind("FileUploaded", function (up, file, res) {
+            var f = JSON.parse(res.response);
+            if(f.status == 'success') {
+                var img = "\n![](" + f.url + ")\n";
+                editor.replaceSelection(img)
+            }
+        });
+    };
+    var pluploadHandler = new PluploadHandler(jQuery, plupload);
+};
+function preview() {
+    $("input[name='preview']").val('1');
+    $("#id_attachment").removeAttr('name');
+    $("#postform").prop('target', '_blank').submit();
+}
+function submit() {
+    $("input[name='preview']").val('');
+    $("#id_attachment").attr('name', 'attachment');
+    $("#postform").prop('target', '_self').submit();
+}
+</script>
+{% endblock %}

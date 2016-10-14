@@ -1,0 +1,20 @@
+{% load template_helper %}
+
+<table class="am-table minos-list am-text-sm am-table-bordered am-table-hover am-scrollable-horizontal">
+  <tr class="null am-primary">
+    <td width="10%" class="am-hide-sm-down">时间</td>
+    <td>标题</td>
+    <td width="8%" class="am-text-center am-hide-sm-down">等级</td>
+    <td width="12%" class="am-text-right">作者</td>
+  </tr>
+  {% for post in post_list %}
+  <tr class="row">
+    <td class="am-link-muted am-hide-sm-down">{{ post.created_time | date:'Y-m-d' }}</td>
+    <td>
+        <a href="{{ post.get_absolute_url }}" >{{ post.title }}</a>
+    </td>
+    <td class="am-text-center am-hide-sm-down">{{ post.get_level_display | post_tag }}</td>
+    <td class="am-text-right"><a href="{{ post.author.get_absolute_url }}">{{ post.author.nickname | truncatechars:13 }}</a></td>
+  </tr>
+  {% endfor %}
+</table>

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}我的订单列表{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+  <div class="am-u-sm-centered">
+  <h2>订单列表</h2>
+        <hr>
+
+  <table class="am-table minos-list am-text-sm am-table-bordered am-table-hover am-scrollable-horizontal">
+      <tr class="null am-primary">
+        <td width="15%">时间</td>
+        <td>商品</td>
+        <td width="7%">价格</td>
+        <td width="7%">发货</td>
+      </tr>
+      {% for object in object_list %}
+      <tr class="row">
+        <td>{{ object.created_time | date:'Y-m-d H:i:s' }}</td>
+        <td>
+            <a href="{{ object.get_absolute_url }}" >{{ object.gift.name }}</a>
+        </td>
+        <td>{{ object.cost }}</td>
+        <td>{{ object.delivery | yesno:'<span class="am-text-success">已发货</span>,<span class="am-text-danger">未发货</span>' | safe }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    {% if is_paginated %}
+    {% include 'archive/_pagination.html' %}
+    {% endif %}
+  </div>
+</div>
+</div>
+{% endblock %}

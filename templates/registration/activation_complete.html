@@ -1,0 +1,29 @@
+{% extends 'registration/base.html' %}
+{% block title %}
+账户已激活 | {{ website.title }}
+{% endblock %}
+{% block body %}
+<!-- UI - X Starts -->
+<div class="ui-331">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2 col-mob">
+                <!-- Outer Starts -->
+                <div class="ui-outer">
+                    <!-- Form -->
+                    <div class="ui-form">
+                        <!-- Heading -->
+                        <h4>账户已激活 - {{ website.title }}</h4>
+                        <!-- Form -->
+                        <div class="alert alert-success" role="alert">
+                            账户已激活，<a href="{% url 'login' %}">点击登录</a>！
+                        </div>
+                    </div>
+                </div>
+                <!-- Outer Ends -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- UI - X Ends -->
+{% endblock %}

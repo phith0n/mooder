@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="am-g">
+  <div class="am-u-sm-12 am-u-md-10 am-u-lg-8 am-u-sm-centered">
+      <h2>{{ title | default:"有错误发生啦！" }}</h2>
+      <hr>
+      <div class="am-alert am-alert-secondary" data-am-alert>
+          <p>{{ errors }}</p>
+          <p><a href="{{ return_url | default:'javascript:history.back(-1)' }}" class="am-btn am-btn-sm am-btn-success">点击返回</a></p>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

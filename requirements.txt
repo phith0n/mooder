@@ -1,0 +1,7 @@
+django
+markdown
+django-markup
+django-pure-pagination
+django-simple-captcha
+django-bootstrap3
+django-registration-redux

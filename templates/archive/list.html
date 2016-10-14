@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}贡献列表{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+  <div class="am-u-sm-centered">
+  <h2>贡献列表</h2>
+        <hr>
+    {% include 'archive/_archive_list.html' %}
+    {% if is_paginated %}
+    {% include 'archive/_pagination.html' %}
+    {% endif %}
+  </div>
+</div>
+</div>
+{% endblock %}

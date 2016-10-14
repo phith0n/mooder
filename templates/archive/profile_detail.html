@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load admin_helper %}
+{% load template_helper %}
+
+{% block title %}用户详情{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+    <div class="am-u-sm-centered">
+    <h2>用户详情</h2>
+    <hr>
+    <div class="am-g">
+        <div class="am-u-sm-2">
+            昵称
+        </div>
+        <div class="am-u-sm-10">
+            {{ object.nickname }}
+        </div>
+    </div>
+    <hr>
+    <div class="am-g">
+        <div class="am-u-sm-2">
+            邮箱
+        </div>
+        <div class="am-u-sm-10">
+            {{ object.email }}
+        </div>
+    </div>
+    <hr>
+    <div class="am-g">
+        <div class="am-u-sm-2">
+            等级
+        </div>
+        <div class="am-u-sm-10">
+            {{ object.get_level_display | whitehat_tag }}
+        </div>
+    </div>
+    <hr>
+    <div class="am-g">
+        <div class="am-u-sm-2">
+            升级
+        </div>
+        <div class="am-u-sm-10">
+            <div class="am-progress  am-progress-striped am-margin-bottom-0 am-active">
+                <div class="am-progress-bar am-progress-bar-default" style="width: {{ object.rank | level_progress_bar }}%">
+                    {{ object.rank }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr><div class="am-g">
+        <div class="am-u-sm-2">
+            贡献数量
+        </div>
+        <div class="am-u-sm-10">
+            {{ object.author_post.count }} 个
+        </div>
+    </div><hr>
+    <div class="am-g">
+        <div class="am-u-sm-2">
+            Rank
+        </div>
+        <div class="am-u-sm-10">
+            {{ object.rank }}
+        </div>
+    </div>
+    <hr><div class="am-g">
+        <div class="am-u-sm-2">
+            金币
+        </div>
+        <div class="am-u-sm-10">
+            {{ object.coin }} 个
+        </div>
+    </div>
+    <hr>
+    <div class="am-g">
+        <div class="am-u-sm-2">
+            注册时间
+        </div>
+        <div class="am-u-sm-10">
+            <time title="{{ object.date_joined | date:"Y-m-d H:i:s" }}">{{ object.date_joined | timesince }} 前</time>
+        </div>
+    </div>
+    <hr><div class="am-g">
+        <div class="am-u-sm-2">
+            上次登录时间
+        </div>
+        <div class="am-u-sm-10">
+             <time title="{{ object.last_login | date:"Y-m-d H:i:s" }}">{{ object.last_login | timesince }} 前</time>
+        </div>
+    </div>
+    <hr>
+        <a href="{% url 'archive:profile-edit' %}" class="am-btn am-btn-primary">修改设置</a>
+    <hr>
+    <h2>金币记录</h2>
+    <table class="am-table am-table-bordered am-table-hover">
+        <thead>
+            <tr>
+                <th>时间</th>
+                <th>变化</th>
+                <th>变化后金币数</th>
+                <th>操作人</th>
+                <th>说明</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in object_list %}
+                <tr>
+                    <td>{{ log.created_time | date:"Y-m-d H:i:s" }}</td>
+                    <td>
+                        {% if log.coin >= 0 %}
+                        增加 {{ log.coin }} 个
+                        {% else %}
+                        减少 {{ log.coin | absolute }}个
+                        {% endif %}
+                    </td>
+                    <td>{{ log.rest }}</td>
+                    <td>{{ log.admin.nickname | default:"系统" }}</td>
+                    <td>{{ log.message | default:"无说明" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if is_paginated %}
+    {% include 'archive/_pagination.html' %}
+    {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}

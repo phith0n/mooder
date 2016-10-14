@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load template_helper %}
+
+{% block title %}我的贡献{% endblock %}
+
+{% block body %}
+<div class="am-container">
+<div class="am-g">
+  <div class="am-u-sm-centered">
+  <h2>我的贡献</h2>
+     <hr>
+
+    <table class="am-table minos-list am-text-sm am-table-bordered am-table-hover am-scrollable-horizontal">
+      <tr class="null am-primary">
+        <td width="10%" class="am-hide-sm-down">时间</td>
+        <td>标题</td>
+        <td width="8%" class="am-text-center am-hide-sm-down">等级</td>
+        <td width="12%" class="am-text-right">状态</td>
+      </tr>
+      {% for post in post_list %}
+      <tr class="row">
+        <td class="am-link-muted am-hide-sm-down">{{ post.created_time | date:'Y-m-d' }}</td>
+        <td>
+            <a href="{{ post.get_absolute_url }}" >
+                {{ post.title }}
+            </a>
+        </td>
+        <td class="am-text-center am-hide-sm-down">{{ post.get_level_display | post_tag }}</td>
+        <td class="am-text-right">{{ post.get_verify_display }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    {% if is_paginated %}
+    {% include 'archive/_pagination.html' %}
+    {% endif %}
+  </div>
+</div>
+</div>
+{% endblock %}

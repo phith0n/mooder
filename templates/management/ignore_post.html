@@ -1,0 +1,17 @@
+{% extends 'management/base.html' %}
+{% load bootstrap3 %}
+
+{% block subject %}忽略贡献 《{{ post.title }}》{% endblock %}
+
+{% block body %}
+<form method="post" class="form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <a href="javascript:history.back(-1)" class="btn btn-info">返回</a>
+        <button type="submit" class="btn btn-primary">
+             <span class="fa-star fa"></span> 忽略
+        </button>
+    {% endbuttons %}
+</form>
+{% endblock %}
