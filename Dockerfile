@@ -1,13 +1,5 @@
-FROM grahamdumpleton/mod-wsgi-docker:python-3.5
+FROM grahamdumpleton/mod-wsgi-docker:python-3.5-onbuild
 
-WORKDIR /app
+USER $MOD_WSGI_USER:$MOD_WSGI_GROUP
 
-COPY . /app
-
-RUN mod_wsgi-docker-build
-
-EXPOSE 80
-
-ENTRYPOINT [ "bash", "docker-start.sh" ]
-
-CMD [ "mooder/wsgi.py" ]
+RUN chown $MOD_WSGI_USER:$MOD_WSGI_GROUP -R .
