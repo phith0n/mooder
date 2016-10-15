@@ -1,6 +1,19 @@
-FROM grahamdumpleton/mod-wsgi-docker:python-3.5-onbuild
+FROM grahamdumpleton/mod-wsgi-docker:python-3.5
 
-RUN chown $MOD_WSGI_USER:$MOD_WSGI_GROUP -R . && chmod +x .whiskey/action_hooks/deploy && chmod +x .whiskey/action_hooks/pre-build && chown $MOD_WSGI_USER:$MOD_WSGI_GROUP -R /data
+WORKDIR /app
+
+COPY . /app
+
+RUN chown $MOD_WSGI_USER:$MOD_WSGI_GROUP -R .
+RUN chmod +x .whiskey/action_hooks/deploy
+RUN chmod +x .whiskey/action_hooks/pre-build
+RUN chown $MOD_WSGI_USER:$MOD_WSGI_GROUP -R /data
+
+RUN mod_wsgi-docker-build
+
+EXPOSE 80
+
+ENTRYPOINT [ "mod_wsgi-docker-start" ]
 
 VOLUME ["/data"]
 
