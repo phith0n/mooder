@@ -8,6 +8,6 @@ RUN mod_wsgi-docker-build
 
 EXPOSE 80
 
-ENTRYPOINT [ "docker-start.sh" ]
+ENTRYPOINT [ "bash", "docker-start.sh" ]
 
 CMD [ "mooder/wsgi.py" ]
