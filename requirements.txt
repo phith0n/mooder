@@ -5,5 +5,6 @@ django-pure-pagination
 django-simple-captcha
 django-bootstrap3
 django-registration-redux
+django-mailgun
 pytz
 psycopg2
