@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+apt-get update && apt-get install -y postgresql-client libpq-dev
