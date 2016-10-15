@@ -18,7 +18,6 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 from . import settings
-import debug_toolbar
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
