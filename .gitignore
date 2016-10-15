@@ -92,7 +92,6 @@ ENV/
 
 db.sqlite3
 .idea/
-mooder/settings_production.py
 mooder/media_cdn/
 mooder/static_cdn/
 archives/static/js/

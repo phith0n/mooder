@@ -6,3 +6,4 @@ django-simple-captcha
 django-bootstrap3
 django-registration-redux
 pytz
+python-psycopg2
