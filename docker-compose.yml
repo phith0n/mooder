@@ -10,11 +10,15 @@ services:
    env_file:
     - .env
    volumes:
-      - file-data:/data
+    - file-data:/data
  db:
    image: postgres
    environment:
     - POSTGRES_PASSWORD=postgres
+   volumes:
+    - db-data:/var/lib/postgresql/data
 volumes:
   file-data:
+    driver: local
+  db-data:
     driver: local
