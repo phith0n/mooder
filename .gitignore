@@ -95,3 +95,6 @@ db.sqlite3
 mooder/media_cdn/
 mooder/static_cdn/
 archives/static/js/
+mooder/settings_development.py
+
+.secretkey
