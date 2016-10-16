@@ -1,11 +1,10 @@
 from datetime import datetime
 from django.db import models
 from django.utils.crypto import get_random_string
-from mooder.settings import AUTH_USER_MODEL
+from django.conf import settings
 from uuid import uuid4
 from django.template.defaultfilters import date
 from django.utils import timezone
-from mooder import settings
 from django.core.exceptions import ValidationError
 from django.shortcuts import reverse
 from django.db.models.signals import pre_save
@@ -81,9 +80,9 @@ class Post(models.Model):
     remark = models.TextField('评价', null=True, blank=True)
 
     price = models.PositiveIntegerField('价格', default=0)
-    buyers = models.ManyToManyField(AUTH_USER_MODEL, related_name='user_buy_post', blank=True)
+    buyers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='user_buy_post', blank=True)
 
-    author = models.ForeignKey(AUTH_USER_MODEL, verbose_name='作者', on_delete=models.CASCADE, related_name='author_post')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='作者', on_delete=models.CASCADE, related_name='author_post')
     category = models.ForeignKey('Category', verbose_name='分类', on_delete=models.CASCADE)
 
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
@@ -108,7 +107,7 @@ class Post(models.Model):
 class Comment(models.Model):
     content = models.TextField('评论')
     post = models.ForeignKey(Post, verbose_name='文章', on_delete=models.CASCADE)
-    author = models.ForeignKey(AUTH_USER_MODEL, verbose_name='作者', on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='作者', on_delete=models.CASCADE)
     parent = models.ForeignKey('self', verbose_name='父评论', blank=True, null=True)
 
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
@@ -155,7 +154,7 @@ class Category(models.Model):
 
 class PostImage(models.Model):
     file = models.ImageField('图片', upload_to='images/%Y/%m/%d', blank=True, validators=[check_image_extension])
-    uploaded_by = models.ForeignKey(AUTH_USER_MODEL, verbose_name='上传者', on_delete=models.CASCADE)
+    uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='上传者', on_delete=models.CASCADE)
 
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
     last_modify_time = models.DateTimeField('修改时间', auto_now=True)
@@ -212,7 +211,7 @@ class Gift(models.Model):
 
 class GiftLog(models.Model):
     gift = models.ForeignKey(Gift, verbose_name='礼物')
-    buyer = models.ForeignKey(AUTH_USER_MODEL, verbose_name='购买者')
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='购买者')
     cost = models.PositiveIntegerField('花费')
     delivery = models.BooleanField('发货', default=False)
 

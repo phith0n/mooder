@@ -1,5 +1,5 @@
 from django import template
-from mooder.settings import USER_LEVEL_RANGE
+from django.conf import settings
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 from archives.models import LEVEL_STATUS_CHOICES
@@ -9,7 +9,7 @@ register = template.Library()
 
 @register.filter(name="whitehat_tag", need_autoescape=True)
 def whitehat_level_tag_filter(name, autoescape=True):
-    colors = dict((_[1][1], _[2]) for _ in USER_LEVEL_RANGE)
+    colors = dict((_[1][1], _[2]) for _ in settings.USER_LEVEL_RANGE)
     if autoescape:
         name = conditional_escape(name)
     return mark_safe('<span class="am-badge am-badge-{color}">{value}</span>'.format(color=colors[name], value=name))
@@ -68,8 +68,8 @@ def first_error_filter(errors):
 @register.filter
 def level_progress_bar(rank):
     total = rank
-    for index, level in enumerate(USER_LEVEL_RANGE):
-        if level[0][0] <= rank < level[0][1] and index < len(USER_LEVEL_RANGE) - 1:
+    for index, level in enumerate(settings.USER_LEVEL_RANGE):
+        if level[0][0] <= rank < level[0][1] and index < len(settings.USER_LEVEL_RANGE) - 1:
             total = level[0][1]
             break
 

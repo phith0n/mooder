@@ -1,6 +1,8 @@
 from mooder.settings import *
 
-SECRET_KEY = 'tcydk1&&g1iej0#pchikrlt)5uw@t^t&4#=a1f9@^5waz_9=f&'
+with open('.secretkey', 'rb') as f:
+    SECRET_KEY = f.read()
+
 DEBUG = False
 ALLOWED_HOSTS = ['*']
 SECURE_CONTENT_TYPE_NOSNIFF = True

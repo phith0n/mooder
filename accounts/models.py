@@ -1,14 +1,14 @@
 import urllib, hashlib
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, UserManager
-from mooder.settings import USER_LEVEL_RANGE
+from django.conf import settings
 from django.db.models.signals import pre_save
 from django.shortcuts import reverse
 from urllib.parse import urlencode
 from django.dispatch import receiver
 from django.forms import ValidationError
 
-from mooder.settings import AUTH_USER_MODEL
+from django.conf import settings
 
 
 class MyUserManager(BaseUserManager):
@@ -44,8 +44,8 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-USER_LEVEL = [_[1] for _ in USER_LEVEL_RANGE]
-DEFAULT_USER_LEVEL = USER_LEVEL_RANGE[0][1][0]
+USER_LEVEL = [_[1] for _ in settings.USER_LEVEL_RANGE]
+DEFAULT_USER_LEVEL = settings.USER_LEVEL_RANGE[0][1][0]
 
 
 def generate_upload_filename(instance, filename):
@@ -85,8 +85,8 @@ class Member(AbstractUser):
 
 class Invitecode(models.Model):
     code = models.CharField('邀请码', max_length=32, unique=True)
-    usedby = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, related_name='used_by_user')
-    createdby = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_by_user', blank=True, null=True)
+    usedby = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True, related_name='used_by_user')
+    createdby = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_by_user', blank=True, null=True)
     used = models.BooleanField('使用', default=False)
 
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
@@ -104,11 +104,11 @@ class Invitecode(models.Model):
 
 @receiver(pre_save, sender=Member)
 def pre_save_member_receiver(sender, instance, *args, **kwargs):
-    for level in USER_LEVEL_RANGE:
+    for level in settings.USER_LEVEL_RANGE:
         level_name = level[1][0]
         if level[0][0] <= instance.rank < level[0][1] and instance.level != level_name:
             instance.level = level_name
             break
 
-    if instance.rank >= USER_LEVEL_RANGE[-1][0][0]:
-        instance.level = USER_LEVEL_RANGE[-1][1][0]
+    if instance.rank >= settings.USER_LEVEL_RANGE[-1][0][0]:
+        instance.level = settings.USER_LEVEL_RANGE[-1][1][0]
