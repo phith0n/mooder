@@ -9,7 +9,12 @@ services:
     - db
    env_file:
     - .env
+   volumes:
+      - file-data:/data
  db:
    image: postgres
    environment:
     - POSTGRES_PASSWORD=postgres
+volumes:
+  file-data:
+    driver: local
