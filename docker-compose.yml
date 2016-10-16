@@ -9,3 +9,5 @@ services:
     - db
  db:
    image: postgres
+   environment:
+    - POSTGRES_PASSWORD=postgres
