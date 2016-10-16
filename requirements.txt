@@ -1,3 +1,4 @@
+-i https://pypi.tuna.tsinghua.edu.cn/simple
 django
 markdown
 django-markup
