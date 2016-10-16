@@ -1,0 +1,11 @@
+version: '1'
+services:
+ web:
+   build: .
+   command: --url-alias /media /data
+   ports:
+    - "8000:80"
+   depends_on:
+    - db
+ db:
+   image: postgres
