@@ -4,9 +4,8 @@
 {% block title %}编辑贡献{% endblock %}
 
 {% block header %}
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/codemirror.min.css"
-      integrity="sha256-MdzaXfGXzZdeHw/XEV2LNNycipsLk4uZ0FYzO3hbuvI=" crossorigin="anonymous" />
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/theme/neat.css" integrity="sha256-WMLC5bxpwvLiouYZo3maC9cKh1TBNxBNqrSjnlP0JQM=" crossorigin="anonymous" />
+<link href="//cdn.bootcss.com/codemirror/5.19.0/codemirror.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/codemirror/5.19.0/theme/neat.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -46,12 +45,9 @@
 {% endblock %}
 
 {% block footer %}
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/codemirror.min.js"
-        integrity="sha256-A/Q5DfSPcuJyVtudS5NJL5+zb6394lr38HC+j9ZXu+Y=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/mode/markdown/markdown.min.js"
-        integrity="sha256-2YdKkqHqf6qDRwHC+2kgT7l5o7dbTrIBP/veO3fYQ8Y=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/plupload/2.1.9/plupload.full.min.js"
-        integrity="sha256-qahd1Wtww76O7gf6fNCUeVDRdDMq5xefzOm2vG4Fdl4=" crossorigin="anonymous"></script>
+<script src="//cdn.bootcss.com/codemirror/5.19.0/codemirror.min.js"></script>
+<script src="//cdn.bootcss.com/codemirror/5.19.0/mode/markdown/markdown.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/plupload/2.1.9/plupload.full.min.js"></script>
 <script type="text/javascript">
 window.onload = function () {
     var textarea = document.getElementById("id_content");
@@ -73,7 +69,7 @@ window.onload = function () {
             runtimes : 'html5,flash',
             browse_button : document.getElementById('upbtn'),
             url : "{% url 'archive:upload-images' %}",
-            flash_swf_url : "//cdnjs.cloudflare.com/ajax/libs/plupload/2.1.9/Moxie.swf",
+            flash_swf_url : "//cdn.bootcss.com/plupload/2.1.9/Moxie.swf",
             filters : {
                 max_file_size : '5mb',
                 mime_types: [

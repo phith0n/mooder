@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
-{% block body %}
+{% block title %}提示信息{% endblock %}
 
+{% block body %}
 <div class="am-g">
   <div class="am-u-sm-12 am-u-md-10 am-u-lg-8 am-u-sm-centered">
       <h2>{{ title | default:"有错误发生啦！" }}</h2>

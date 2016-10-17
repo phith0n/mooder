@@ -44,10 +44,7 @@
 {% endblock %}
 
 {% block footer %}
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/plupload/2.1.9/plupload.full.min.js"
-        integrity="sha256-qahd1Wtww76O7gf6fNCUeVDRdDMq5xefzOm2vG4Fdl4=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.min.js"
-        integrity="sha256-S20kSlaai+/AuQHj3KjoLxmxiOLT5298YvzpaTXtYxE=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/plupload/2.1.9/plupload.full.min.js"></script>
 <script type="text/javascript">
 window.onload = function () {
     var PluploadHandler = function( $, plupload ) {
@@ -58,7 +55,7 @@ window.onload = function () {
             runtimes : 'html5,flash',
             browse_button : document.getElementById('upbtn'),
             url : "{% url 'archive:upload-images' %}",
-            flash_swf_url : "//cdnjs.cloudflare.com/ajax/libs/plupload/2.1.9/Moxie.swf",
+            flash_swf_url : "//cdn.bootcss.com/plupload/2.1.9/Moxie.swf",
             filters : {
                 max_file_size : '5mb',
                 mime_types: [
@@ -66,7 +63,7 @@ window.onload = function () {
                 ]
             },
             headers: {
-                'X-CSRFToken': Cookies.get('csrftoken')
+                'X-CSRFToken': $.AMUI.utils.cookie.get('csrftoken')
             },
             init: {
                 Error: function(up, err) {

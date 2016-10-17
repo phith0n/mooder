@@ -109,15 +109,12 @@
 {% endblock %}
 
 {% block header %}
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"
-      integrity="sha256-szHusaozbQctTn4FX+3l5E0A5zoxz7+ne4fr8NgWJlw=" crossorigin="anonymous" />
+<link href="//cdn.bootcss.com/morris.js/0.5.1/morris.css" rel="stylesheet">
 {% endblock %}
 
 {% block footer %}
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.2.6/raphael.min.js"
-        integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"
-        integrity="sha256-0rg2VtfJo3VUij/UY9X0HJP7NET6tgAY98aMOfwP0P8=" crossorigin="anonymous"></script>
+<script src="//cdn.bootcss.com/raphael/2.2.6/raphael.min.js"></script>
+<script src="//cdn.bootcss.com/morris.js/0.5.1/morris.min.js"></script>
 <script type="text/javascript">
 window.onload = function () {
     new Morris.Area({
