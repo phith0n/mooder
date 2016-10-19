@@ -3,3 +3,5 @@
 set -eo pipefail
 
 apt-get update && apt-get install -y postgresql-client libpq-dev
+
+pip install --upgrade pip
