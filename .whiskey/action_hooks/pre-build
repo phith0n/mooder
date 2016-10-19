@@ -2,6 +2,6 @@
 
 set -eo pipefail
 
-apt-get update && apt-get install -y postgresql-client libpq-dev libjpeg-dev zlib1g-dev
+apt-get update && apt-get install -y postgresql-client libpq-dev libjpeg-dev zlib1g-dev libfreetype6-dev
 
 pip install --upgrade pip
