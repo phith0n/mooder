@@ -187,6 +187,12 @@ USER_LEVEL_RANGE = (
     ((2000, -1), ('god', '妇科圣手'), 'danger')
 )
 
+SITE = {
+    'title': '安全团队贡献平台',
+    'description': '一个团队使用的贡献平台',
+    'keyword': '安全,团队,贡献'
+}
+
 ACCOUNT_ACTIVATION_DAYS = 3
 REGISTRATION_AUTO_LOGIN = False
 INCLUDE_AUTH_URLS = False

@@ -1,13 +1,12 @@
 from django.core.urlresolvers import resolve
 from archives.models import Link
+from django.conf import settings
 
 
 def global_site_context(request):
     links = Link.objects.all()
     return {
-        'website': {
-            'title': "安全盒子内部贡献平台",
-        },
+        'website': settings.SITE,
         'view': {
             'name': resolve(request.path).view_name
         },
