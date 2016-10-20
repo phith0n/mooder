@@ -4,7 +4,7 @@ set -eo pipefail
 
 export PGPASSWORD=${DB_PASSWORD}
 
-until psql -h "${DB_HOST}" -U "postgres" -w -c '\l'; do
+until psql -h "${DB_HOST}" -p "${DB_PORT}" -U "postgres" -w -c '\l'; do
   >&2 echo "Postgres is unavailable - sleeping"
   sleep 1
 done
