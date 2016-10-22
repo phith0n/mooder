@@ -28,6 +28,10 @@ class PostForm(forms.ModelForm):
         self['attachment'].help_text = '没有附件则无需选择'
         self['price'].help_text = '不出售则无需填写，最多10'
 
+    def clean_price(self):
+        if self.cleaned_data['visible'] == 'sell' and self.cleaned_data['price'] <= 0:
+            raise forms.ValidationError('出售的贡献必须填写价格')
+        return self.cleaned_data['price']
 
     class Meta:
         model = models.Post
