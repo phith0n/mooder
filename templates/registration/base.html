@@ -5,9 +5,8 @@
 		<meta charset="utf-8">
 		<title>{% block title %}{{ website.title }}{% endblock %}</title>
 		<!-- Description, Keywords and Author -->
-		<meta name="description" content="Your description">
-		<meta name="keywords" content="Your,Keywords">
-		<meta name="author" content="ResponsiveWebInc">
+		<meta name="description" content="{{ website.description }}">
+		<meta name="keywords" content="{{ website.keyword }}">
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -22,7 +21,7 @@
 		<link href="{% static 'css/sign.css' %}" rel="stylesheet">
 
 		<!-- Favicon -->
-		<link rel="shortcut icon" href="#">
+		<link rel="shortcut icon" href="{% static 'img/main.ico' %}">
 	</head>
 
 	<body>
