@@ -180,6 +180,10 @@ class VerifyView(AdminPermissionMixin, UpdateView):
 
     @transaction.atomic
     def form_valid(self, form):
+        if form.cleaned_data['rank'] <= 0:
+            form.add_error('rank', 'Rank不能为0')
+            return self.form_invalid(form)
+
         self.object = form.save(commit=False)
         self.object.verify = 'pass'
 
