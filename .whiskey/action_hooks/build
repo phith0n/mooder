@@ -2,4 +2,6 @@
 
 set -eo pipefail
 
-[ -s .secretkey ] && openssl rand -out .secretkey 64
+if [ -s .secretkey ]; then
+    openssl rand -out .secretkey 64
+fi
