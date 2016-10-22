@@ -70,14 +70,7 @@
               </div>
               <div class="am-g am-comment-meta am-g-collapse am-text-right">
                 <div class="am-fr">
-
-                        <form method="post" action="/admin/delcomment">
-                            <a href="del-comment">删除</a>
-                            <input type="hidden" name="comid" value="56f5f5244587033f4e3d2330">
-                            <input type="hidden" name="postid" value="554a2c9a9713962803279371">
-                            <input type="hidden" name="_xsrf" value="2|aa346f27|a8d85f04c885d51a35dc332ba579d00e|1475690840"/>
-                        </form>
-
+                    <a class="confirm-alert" href="javascript:submit('{% url 'management-comment-delete' pk=comment.id %}')">删除</a>
                 </div>
                 <div class="am-margin-right-xs am-fr">
                     <a href="javascript:reply('{{ comment.id | escapejs }}', '{{ comment.content | truncatechars:20 | escapejs }}');">回复</a>

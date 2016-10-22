@@ -13,7 +13,7 @@ from django.utils.timezone import now
 from django.db.models.functions import TruncDay
 from django.db.models import Sum, Count
 from django.db.models import Q, F
-from archives.models import Post, Gift, GiftLog, Link
+from archives.models import Post, Gift, GiftLog, Link, Comment
 from accounts.models import Invitecode
 from datetime import timedelta
 from . import models
@@ -451,3 +451,13 @@ class LinkDeleteView(AdminPermissionMixin, DeleteView):
     permission_required = 'archives.delete_link'
 
     get = DeleteView.http_method_not_allowed
+
+
+class DeleteCommentView(AdminPermissionMixin, DeleteView):
+    queryset = Comment.objects.all()
+    permission_required = 'archives.delete_comment'
+
+    get = DeleteView.http_method_not_allowed
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')

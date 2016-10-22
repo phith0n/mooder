@@ -34,4 +34,6 @@ urlpatterns = [
     url(r'^link/(?P<pk>\d+)/$', views.LinkEditView.as_view(), name='management-link-edit'),
     url(r'^link/(?P<pk>\d+)/delete/$', views.LinkDeleteView.as_view(), name='management-link-delete'),
     url(r'^link/add/$', views.LinkAddView.as_view(), name='management-link-add'),
+
+    url(r'^comment/delete/(?P<pk>\d+)/$', views.DeleteCommentView.as_view(), name='management-comment-delete'),
 ]
