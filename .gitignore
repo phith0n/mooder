@@ -98,3 +98,5 @@ archives/static/js/
 mooder/settings_development.py
 
 .secretkey
+
+.DS_Store
