@@ -23,6 +23,9 @@ Mooder从设计之初想法就是“封闭”，也就是说该社区严格控�
 
 演示站点注册也需要邀请码，有需要预览的可以专门开一个Issue告诉我！
 
+## 开源协议
+
+使用Mooder请遵守LGPL协议。
 
 [1]: https://phith0n.github.io/mooder/
 [2]: http://mooder.daoapp.io/
