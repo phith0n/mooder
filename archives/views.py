@@ -47,10 +47,10 @@ class UploadImageView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = forms.PostImageForm(request.POST or None, request.FILES or None)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.uploaded_by = request.user
-            user.save()
-            return JsonResponse(dict(status='success', url=user.file.url))
+            img = form.save(commit=False)
+            img.uploaded_by = request.user
+            img.save()
+            return JsonResponse(dict(status='success', url=img.file.url, name=img.name))
 
         return JsonResponse(dict(status='failed'))
 

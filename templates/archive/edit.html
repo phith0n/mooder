@@ -93,7 +93,8 @@ window.onload = function () {
         this.uploader.bind("FileUploaded", function (up, file, res) {
             var f = JSON.parse(res.response);
             if(f.status == 'success') {
-                var img = "\n![](" + f.url + ")\n";
+                var filename = f.name.replace(/\]/g, '_');
+                var img = "\n![" + filename + "](" + f.url + ")\n";
                 editor.replaceSelection(img)
             }
         });

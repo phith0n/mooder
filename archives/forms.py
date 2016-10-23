@@ -67,4 +67,5 @@ class PostImageForm(forms.ModelForm):
         model = models.PostImage
         fields = [
             'file',
+            'name',
         ]
