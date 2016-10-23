@@ -38,6 +38,7 @@ LEVEL_STATUS_CHOICES = (
     ('high', '高危'),
     ('grave', '严重')
 )
+generate_random_filename = lambda a,b:b
 
 
 def check_image_extension(field):
@@ -48,7 +49,7 @@ def check_image_extension(field):
         raise ValidationError("Image filename extensions only allows %s." % (','.join(_allowed_ext), ))
 
 
-def generate_random_filename(instance, filename):
+def generate_attachment_filename(instance, filename):
     tmp = filename.split('.')
     ext = tmp.pop()
     if ext not in ('jpg', 'jpeg', 'png', 'bmp', 'gif', 'rar', 'gz', 'zip', '7z', 'txt', 'pdf', 'doc', 'docx', 'ppt', 'pptx', ):
@@ -59,6 +60,19 @@ def generate_random_filename(instance, filename):
     date_dir = date(datetime.now(tz=tzinfo), 'Y/m')
 
     return "attachment/%s/%s" % (date_dir, filename)
+
+
+def generate_image_filename(instance, filename):
+    tmp = filename.split('.')
+    ext = tmp.pop()
+    if ext not in ('jpg', 'jpeg', 'png', 'bmp', 'gif', ):
+        ext = 'png'
+    filename = "%s_%s.%s" % (uuid4(), get_random_string(length=8), ext)
+
+    tzinfo = timezone.get_current_timezone() if settings.USE_TZ else None
+    date_dir = date(datetime.now(tz=tzinfo), 'Y/m/d')
+
+    return "images/%s/%s" % (date_dir, filename)
 
 
 class FrontPostManager(models.Manager):
@@ -76,7 +90,7 @@ class Post(models.Model):
     show = models.BooleanField('显示', default=True)
     rank = models.PositiveIntegerField('Rank', default=0)
     level = models.CharField('等级', max_length=8, choices=LEVEL_STATUS_CHOICES, default='low')
-    attachment = models.FileField('附件', blank=True, upload_to=generate_random_filename)
+    attachment = models.FileField('附件', blank=True, upload_to=generate_attachment_filename)
     remark = models.TextField('评价', null=True, blank=True)
 
     price = models.PositiveIntegerField('价格', default=0)
@@ -153,7 +167,8 @@ class Category(models.Model):
 
 
 class PostImage(models.Model):
-    file = models.ImageField('图片', upload_to='images/%Y/%m/%d', blank=True, validators=[check_image_extension])
+    file = models.ImageField('图片', upload_to=generate_image_filename, blank=True)
+    name = models.CharField('文件名', blank=True, null=True, max_length=256)
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='上传者', on_delete=models.CASCADE)
 
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
