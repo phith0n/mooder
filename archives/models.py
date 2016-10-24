@@ -1,3 +1,4 @@
+import io, os
 from datetime import datetime
 from django.db import models
 from django.utils.crypto import get_random_string
@@ -42,19 +43,19 @@ generate_random_filename = lambda a,b:b
 
 
 def check_image_extension(field):
-    _allowed_ext = ('jpg', 'jpeg', 'png', 'bmp', 'gif')
-    tmp = field.name.split('.')
-    ext = tmp.pop()
+    _allowed_ext = ('.jpg', '.jpeg', '.png', '.bmp', '.gif')
+    _, ext = os.path.splitext(field.name)
+    ext = ext.lower()
     if ext not in _allowed_ext:
-        raise ValidationError("Image filename extensions only allows %s." % (','.join(_allowed_ext), ))
+        raise ValidationError("图片文件只允许以下后缀： %s." % (','.join(_allowed_ext), ))
 
 
 def generate_attachment_filename(instance, filename):
-    tmp = filename.split('.')
-    ext = tmp.pop()
-    if ext not in ('jpg', 'jpeg', 'png', 'bmp', 'gif', 'rar', 'gz', 'zip', '7z', 'txt', 'pdf', 'doc', 'docx', 'ppt', 'pptx', ):
-        ext = 'attach'
-    filename = "%s_%s.%s" % (uuid4(), get_random_string(length=8), ext)
+    filename, ext = os.path.splitext(filename)
+    if ext not in ('.jpg', '.jpeg', '.png', '.bmp', '.gif', '.rar', '.gz', '.zip', '.7z', '.txt', '.pdf',
+                   '.doc', '.docx', '.ppt', '.pptx', ):
+        ext = '.attach'
+    filename = "%s-%s%s" % (uuid4(), get_random_string(length=8), ext)
 
     tzinfo = timezone.get_current_timezone() if settings.USE_TZ else None
     date_dir = date(datetime.now(tz=tzinfo), 'Y/m')
@@ -63,11 +64,8 @@ def generate_attachment_filename(instance, filename):
 
 
 def generate_image_filename(instance, filename):
-    tmp = filename.split('.')
-    ext = tmp.pop()
-    if ext not in ('jpg', 'jpeg', 'png', 'bmp', 'gif', ):
-        ext = 'png'
-    filename = "%s_%s.%s" % (uuid4(), get_random_string(length=8), ext)
+    filename, ext = os.path.splitext(filename)
+    filename = "%s-%s%s" % (uuid4(), get_random_string(length=8), ext)
 
     tzinfo = timezone.get_current_timezone() if settings.USE_TZ else None
     date_dir = date(datetime.now(tz=tzinfo), 'Y/m/d')
@@ -167,7 +165,7 @@ class Category(models.Model):
 
 
 class PostImage(models.Model):
-    file = models.ImageField('图片', upload_to=generate_image_filename, blank=True)
+    file = models.ImageField('图片', upload_to=generate_image_filename, validators=[check_image_extension], blank=True)
     name = models.CharField('文件名', blank=True, null=True, max_length=256)
     uploaded_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='上传者', on_delete=models.CASCADE)
 
@@ -197,7 +195,8 @@ class Link(models.Model):
 class Gift(models.Model):
     name = models.CharField('名称', max_length=256)
     link = models.URLField('参考链接', null=True, blank=True)
-    photo = models.ImageField('图片', upload_to='gift/%Y/%m/%d', validators=[check_image_extension], null=True, blank=True)
+    photo = models.ImageField('图片', upload_to=generate_image_filename,
+                              validators=[check_image_extension], null=True, blank=True)
     description = models.TextField('描述', blank=True)
     price = models.PositiveIntegerField('价格')
     amount = models.PositiveIntegerField('数量', default=0)

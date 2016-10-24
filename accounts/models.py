@@ -1,4 +1,5 @@
-import urllib, hashlib
+import urllib, hashlib, os
+from uuid import uuid4
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, UserManager
 from django.conf import settings
@@ -50,6 +51,8 @@ DEFAULT_USER_LEVEL = settings.USER_LEVEL_RANGE[0][1][0]
 
 
 def generate_upload_filename(instance, filename):
+    filename, ext = os.path.splitext(filename)
+    filename = "%s%s" % (uuid4(), ext)
     return "mugshots/%s/%s" % (instance.id, filename)
 
 
