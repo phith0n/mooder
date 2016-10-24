@@ -32,7 +32,7 @@ class PermNode(template.Node):
         self.permission = permission
 
     def render(self, context):
-        if context['request'].user.has_perms(self.permission):
+        if context['request'].user.has_perm(self.permission):
             output = self.nodelist.render(context)
         else:
             output = ''
