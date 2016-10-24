@@ -23,3 +23,26 @@ def allow_read_post(context, post, content):
 </div>''' % (post.price, user.coin, url, )
 
     return mark_safe(content)
+
+
+class PermNode(template.Node):
+
+    def __init__(self, nodelist, permission):
+        self.nodelist = nodelist
+        self.permission = permission
+
+    def render(self, context):
+        if context['request'].user.has_perms(self.permission):
+            output = self.nodelist.render(context)
+        else:
+            output = ''
+
+        return output
+
+
+@register.tag
+def perm(parser, token):
+    bits = token.split_contents()
+    nodelist = parser.parse(('endperm',))
+    parser.delete_first_token()
+    return PermNode(nodelist, bits[1])

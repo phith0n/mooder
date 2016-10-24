@@ -69,9 +69,12 @@
                 评论于 <time datetime="{{ comment.created_time }}" title="{{ comment.created_time | date:'Y-m-d H:i:s' }}">{{ comment.created_time | timesince }}</time> 前
               </div>
               <div class="am-g am-comment-meta am-g-collapse am-text-right">
+
+                {% perm 'archives.delete_comment' %}
                 <div class="am-fr">
                     <a class="confirm-alert" href="javascript:submit('{% url 'management-comment-delete' pk=comment.id %}')">删除</a>
                 </div>
+                {% endperm %}
                 <div class="am-margin-right-xs am-fr">
                     <a href="javascript:reply('{{ comment.id | escapejs }}', '{{ comment.content | truncatechars:20 | escapejs }}');">回复</a>
                 </div>
