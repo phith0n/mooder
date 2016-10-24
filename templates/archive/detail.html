@@ -43,7 +43,7 @@
 
           {% if post.attachment %}
               <hr>
-              <h2 class="am-margin-top-xs"><i class="am-icon-paperclip"></i> <a href="{{ post.attachment.url }}" class="am-link-muted" target="_blank">附件下载</a></h2>
+              <h2 class="am-margin-top-xs"><i class="am-icon-paperclip"></i> <a href="{{ post.get_attachment_url }}" class="am-link-muted" target="_blank">附件下载</a></h2>
           {% endif %}
       </article>
 

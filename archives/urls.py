@@ -17,6 +17,7 @@ urlpatterns = [
 
     url(r'^post/(?P<pk>\d+)/$', views.ArchiveDetailView.as_view(), name='detail'),
     url(r'^post/(?P<pk>\d+)/buy/$', views.ArchiveBuyView.as_view(), name='buy'),
+    url(r'^post/attach/(?P<pk>\d+)/$', views.AttachmentView.as_view(), name='attachment'),
 
     url(r'^gift/$', views.GiftListView.as_view(), name='shop'),
     url(r'^gift/(?P<pk>\d+)/$', views.GiftDetailView.as_view(), name='gift'),

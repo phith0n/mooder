@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import ListView, DetailView, View, TemplateView, CreateView, UpdateView
 from django.views.generic.detail import SingleObjectMixin
@@ -8,6 +9,9 @@ from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.db.models import Q, F
+from django.http import Http404
+from django.http import StreamingHttpResponse
+from wsgiref.util import FileWrapper
 from django.urls import reverse_lazy
 from managements.models import log_coin
 from urllib.parse import urlparse
@@ -248,6 +252,28 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         return models.GiftLog.objects.filter(buyer=self.request.user)
+
+
+class AttachmentView(LoginRequiredMixin, View):
+    def get_queryset(self):
+        if self.request.user.has_perm('post-change'):
+            return models.Post.posts.all()
+        else:
+            return models.Post.posts.filter((Q(author_id=self.request.user.id)) | (Q(verify='pass') & ~Q(author_id=self.request.user.id)))
+
+    def get(self, request, *args, **kwargs):
+        post = get_object_or_404(self.get_queryset(), pk=self.kwargs['pk'])
+        if request.user.is_superuser or post.author_id == request.user.id:
+            pass
+        elif post.visible == 'private' or post.visible == 'sell' and not post.buyers.filter(id=request.user.id).exists():
+            raise Http404
+
+        chunk_size = 8192
+        response = StreamingHttpResponse(FileWrapper(open(post.attachment.path, 'rb'), chunk_size),
+                                         content_type='application/octet-stream')
+        response['Content-Length'] = post.attachment.size
+        response['Content-Disposition'] = "attachment; filename=%s" % os.path.basename(post.attachment.name)
+        return response
 
 
 class JavascriptView(LoginRequiredMixin, TemplateView):

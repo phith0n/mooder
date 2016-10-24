@@ -115,6 +115,9 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('archive:detail', kwargs=dict(pk=self.id))
 
+    def get_attachment_url(self):
+        return reverse('archive:attachment', kwargs=dict(pk=self.id))
+
 
 class Comment(models.Model):
     content = models.TextField('评论')
