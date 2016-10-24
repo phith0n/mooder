@@ -7,6 +7,7 @@ from django.shortcuts import reverse
 from urllib.parse import urlencode
 from django.dispatch import receiver
 from django.forms import ValidationError
+from archives.models import check_image_extension
 
 from django.conf import settings
 
@@ -57,7 +58,7 @@ class Member(AbstractUser):
     username = models.CharField('用户名', max_length=64, blank=True, null=True)
     email = models.EmailField('邮箱', max_length=255, unique=True)
     nickname = models.CharField('昵称', max_length=64, unique=True)
-    mugshot = models.ImageField('头像', upload_to=generate_upload_filename, blank=True, null=True)
+    mugshot = models.ImageField('头像', upload_to=generate_upload_filename, validators=[check_image_extension], blank=True, null=True)
     rank = models.PositiveIntegerField('Rank', default=0)
     coin = models.PositiveIntegerField('金币', default=0)
     level = models.CharField('等级', max_length=16, default=DEFAULT_USER_LEVEL, choices=USER_LEVEL)
