@@ -29,7 +29,9 @@ if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
     EMAIL_PORT = os.environ.get('EMAIL_PORT')
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-    EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL')
+    EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', None)
+    if EMAIL_USE_SSL and EMAIL_USE_SSL.lower() == 'false':
+        EMAIL_USE_SSL = None
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'mooder', 'static_cdn')
