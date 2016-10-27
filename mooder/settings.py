@@ -193,7 +193,7 @@ INCLUDE_AUTH_URLS = False
 INCLUDE_REGISTER_URL = True
 REGISTRATION_FORM = 'accounts.forms.SignupForm'
 
-# 是否启用邮箱激活
-SEND_ACTIVATION_EMAIL = False
+# 是否启用邮箱激活，False则需要管理员手工激活，True为邮箱激活
+SEND_ACTIVATION_EMAIL = True
 
 INTERNAL_IPS = ['127.0.0.1']
