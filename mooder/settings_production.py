@@ -18,18 +18,18 @@ DATABASES = {
 }
 
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
 if EMAIL_BACKEND=='django_mailgun.MailgunBackend':
     MAILGUN_ACCESS_KEY = os.environ.get('MAILGUN_ACCESS_KEY')
     MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME')
 
-if EMAIL_BACKEND=='django.core.mail.backends.smtp.EmailBackend':
-    DEFAULT_FROM_EMAIL=os.environ.get('DEFAULT_FROM_EMAIL')
-    EMAIL_HOST=os.environ.get('EMAIL_HOST')
-    EMAIL_PORT=os.environ.get('EMAIL_PORT')
-    EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
-    EMAIL_USE_SSL=os.environ.get('EMAIL_USE_SSL')
+if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
+    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+    EMAIL_HOST = os.environ.get('EMAIL_HOST')
+    EMAIL_PORT = os.environ.get('EMAIL_PORT')
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'mooder', 'static_cdn')

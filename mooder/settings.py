@@ -94,13 +94,6 @@ DATABASES = {
     }
 }
 
-# Email
-# EMAIL_HOST = 'smtp.mailgun.org'
-# EMAIL_PORT = 465
-# EMAIL_HOST_USER = 'no-reply@mail.leavesongs.com'
-# EMAIL_HOST_PASSWORD = 'CVJ06f0FNqL0Pe'
-# EMAIL_USE_TLS  = True
-
 # Mailgun api
 EMAIL_HOST_USER = 'no-reply@example.com'
 EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
