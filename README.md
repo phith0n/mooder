@@ -17,6 +17,11 @@ Mooder从设计之初想法就是“封闭”，也就是说该社区严格控�
 
 详细文档移步 [https://phith0n.github.io/mooder/][1]
 
+## Change Log
+
+- 2016.11.01
+  - 由于Mailgun十分不稳定，将默认邮件发送方式替换为SMTP，配置方法见文档，升级不影响已经配置好Mailgun的站点运行
+
 ## 演示站点
 
 演示站点： [http://mooder.daoapp.io/][2]
