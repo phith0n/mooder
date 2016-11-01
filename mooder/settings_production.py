@@ -24,7 +24,7 @@ if EMAIL_BACKEND=='django_mailgun.MailgunBackend':
     MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME')
 
 if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
-    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
     EMAIL_HOST = os.environ.get('EMAIL_HOST')
     EMAIL_PORT = os.environ.get('EMAIL_PORT')
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
@@ -32,6 +32,9 @@ if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
     EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', None)
     if EMAIL_USE_SSL and EMAIL_USE_SSL.lower() == 'false':
         EMAIL_USE_SSL = None
+    EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', None)
+    if EMAIL_USE_TLS and EMAIL_USE_TLS.lower() == 'false':
+        EMAIL_USE_TLS = None
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'mooder', 'static_cdn')
