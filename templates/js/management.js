@@ -3,7 +3,7 @@ function submit(action_url) {
     var xsrf = $("{% csrf_token %}");
     f.append(xsrf);
     f.prop('action', action_url);
-    f.submit();
+    f.appendTo('body').submit();
 }
 window.onload = function () {
     $(".confirm-alert").on('click', function (e) {
