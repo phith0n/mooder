@@ -19,12 +19,12 @@ DATABASES = {
 
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 if EMAIL_BACKEND=='django_mailgun.MailgunBackend':
     MAILGUN_ACCESS_KEY = os.environ.get('MAILGUN_ACCESS_KEY')
     MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME')
 
 if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
-    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
     EMAIL_HOST = os.environ.get('EMAIL_HOST')
     EMAIL_PORT = os.environ.get('EMAIL_PORT')
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
