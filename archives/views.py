@@ -282,12 +282,11 @@ class JavascriptView(LoginRequiredMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         referer = request.META.get('HTTP_REFERER', '')
-
         try:
             u1 = urlparse(referer)
             u2 = urlparse(request.build_absolute_uri())
 
-            if u1.scheme != u2.scheme or u1.netloc != u2.netloc:
+            if u1.scheme not in ('http', 'https') or u1.netloc != u2.netloc:
                 raise BaseException()
         except:
             return self.handle_no_permission()
