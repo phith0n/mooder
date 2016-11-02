@@ -89,6 +89,7 @@ class Post(models.Model):
     rank = models.PositiveIntegerField('Rank', default=0)
     level = models.CharField('等级', max_length=8, choices=LEVEL_STATUS_CHOICES, default='low')
     attachment = models.FileField('附件', blank=True, upload_to=generate_attachment_filename)
+    attachment_filename = models.CharField('附件文件名', blank=True, null=True, max_length=256)
     remark = models.TextField('评价', null=True, blank=True)
 
     price = models.PositiveIntegerField('价格', default=0)

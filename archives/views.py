@@ -1,4 +1,5 @@
 import os
+from urllib.parse import quote
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic import ListView, DetailView, View, TemplateView, CreateView, UpdateView
 from django.views.generic.detail import SingleObjectMixin
@@ -43,6 +44,7 @@ class CreateArchiveView(LoginRequiredMixin, CreateView):
         if self.request.POST.get('preview', None):
             return render(self.request, 'archive/detail.html', dict(post=post, is_preview=True))
 
+        post.attachment_filename = os.path.basename(form.cleaned_data['attachment'].name)
         post.save()
         return redirect('archive:list')
 
@@ -272,7 +274,15 @@ class AttachmentView(LoginRequiredMixin, View):
         response = StreamingHttpResponse(FileWrapper(open(post.attachment.path, 'rb'), chunk_size),
                                          content_type='application/octet-stream')
         response['Content-Length'] = post.attachment.size
-        response['Content-Disposition'] = "attachment; filename=%s" % os.path.basename(post.attachment.name)
+
+        filename = post.attachment_filename if post.attachment_filename else 'attachment'
+        response["Content-Disposition"] = \
+            "attachment; " \
+            "filenane={ascii_filename};" \
+            "filename*=UTF-8''{utf_filename}".format(
+                ascii_filename=quote(filename),
+                utf_filename=quote(filename)
+            )
         return response
 
 
