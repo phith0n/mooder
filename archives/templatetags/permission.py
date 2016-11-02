@@ -8,7 +8,7 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def allow_read_post(context, post, content):
     user = context['request'].user
-    if user.is_superuser or post.author_id == user.id:
+    if user.is_superuser or post.author_id == user.id or user.has_perm('archives.change_post'):
         pass
     elif post.visible == 'private':
         content = '''<div class="am-alert am-alert-secondary" data-am-alert>

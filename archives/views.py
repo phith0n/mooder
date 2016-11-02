@@ -119,7 +119,7 @@ class ArchiveDetailView(LoginRequiredMixin, DetailView):
     template_name = "archive/detail.html"
 
     def get_queryset(self):
-        if self.request.user.has_perm('post-change'):
+        if self.request.user.has_perm('archives.change_post'):
             return models.Post.posts.all()
         else:
             return models.Post.posts.filter((Q(author_id=self.request.user.id)) | (Q(verify='pass') & ~Q(author_id=self.request.user.id)))
@@ -256,7 +256,7 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
 
 class AttachmentView(LoginRequiredMixin, View):
     def get_queryset(self):
-        if self.request.user.has_perm('post-change'):
+        if self.request.user.has_perm('archives.change_post'):
             return models.Post.posts.all()
         else:
             return models.Post.posts.filter((Q(author_id=self.request.user.id)) | (Q(verify='pass') & ~Q(author_id=self.request.user.id)))
