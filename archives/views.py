@@ -44,7 +44,8 @@ class CreateArchiveView(LoginRequiredMixin, CreateView):
         if self.request.POST.get('preview', None):
             return render(self.request, 'archive/detail.html', dict(post=post, is_preview=True))
 
-        post.attachment_filename = os.path.basename(form.cleaned_data['attachment'].name)
+        if form.cleaned_data['attachment']:
+            post.attachment_filename = os.path.basename(form.cleaned_data['attachment'].name)
         post.save()
         return redirect('archive:list')
 
