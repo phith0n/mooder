@@ -20,6 +20,7 @@ from . import models
 from django.contrib.sessions.models import Session
 from accounts.models import USER_LEVEL
 from archives.models import LEVEL_STATUS_CHOICES
+from .forms import PostForm
 
 User = get_user_model()
 
@@ -149,18 +150,9 @@ class VerifyPostListView(PostListView):
 
 class EditPostView(AdminPermissionMixin, UpdateView):
     queryset = Post.posts.all()
-    fields = [
-        'title',
-        'category',
-        'visible',
-        'level',
-        'description',
-        'content',
-        'attachment',
-        'remark',
-    ]
     template_name = 'management/post_edit.html'
     permission_required = 'archives.change_post'
+    form_class = PostForm
 
     @property
     def success_url(self):
