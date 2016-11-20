@@ -266,7 +266,7 @@ class AttachmentView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         post = get_object_or_404(self.get_queryset(), pk=self.kwargs['pk'])
-        if request.user.is_superuser or post.author_id == request.user.id:
+        if request.user.is_superuser or request.user.has_perm('archives.change_post') or post.author_id == request.user.id:
             pass
         elif post.visible == 'private' or post.visible == 'sell' and not post.buyers.filter(id=request.user.id).exists():
             raise Http404
