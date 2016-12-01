@@ -290,6 +290,7 @@ class AttachmentView(LoginRequiredMixin, View):
 class JavascriptView(LoginRequiredMixin, TemplateView):
     template_name = 'js/management.js'
     raise_exception = True
+    content_type = 'text/javascript'
 
     def dispatch(self, request, *args, **kwargs):
         referer = request.META.get('HTTP_REFERER', '')
