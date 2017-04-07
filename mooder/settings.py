@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.sites',
     'django_markup',
     'pure_pagination',
     'bootstrap3',
@@ -49,6 +50,8 @@ INSTALLED_APPS = [
     'archives',
     'managements',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
