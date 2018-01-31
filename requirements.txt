@@ -1,5 +1,5 @@
 -i https://pypi.tuna.tsinghua.edu.cn/simple
-django
+django<2.0.0
 markdown
 django-markup
 django-pure-pagination
