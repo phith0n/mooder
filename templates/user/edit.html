@@ -44,7 +44,7 @@
 {% endblock %}
 
 {% block footer %}
-<script type="text/javascript" src="//cdn.bootcss.com/plupload/2.1.9/plupload.full.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/plupload@2.2.1/js/plupload.full.min.js"></script>
 <script type="text/javascript">
 window.onload = function () {
     var PluploadHandler = function( $, plupload ) {
@@ -55,7 +55,7 @@ window.onload = function () {
             runtimes : 'html5,flash',
             browse_button : document.getElementById('upbtn'),
             url : "{% url 'archive:upload-images' %}",
-            flash_swf_url : "//cdn.bootcss.com/plupload/2.1.9/Moxie.swf",
+            flash_swf_url : "https://cdn.jsdelivr.net/npm/plupload@2.2.1/js/Moxie.swf",
             filters : {
                 max_file_size : '5mb',
                 mime_types: [

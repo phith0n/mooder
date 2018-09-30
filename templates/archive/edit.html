@@ -4,8 +4,8 @@
 {% block title %}编辑贡献{% endblock %}
 
 {% block header %}
-<link href="//cdn.bootcss.com/codemirror/5.19.0/codemirror.min.css" rel="stylesheet">
-<link href="//cdn.bootcss.com/codemirror/5.19.0/theme/neat.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.40.2/lib/codemirror.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.40.2/theme/neat.min.css">
 {% endblock %}
 
 {% block body %}
@@ -45,9 +45,9 @@
 {% endblock %}
 
 {% block footer %}
-<script src="//cdn.bootcss.com/codemirror/5.19.0/codemirror.min.js"></script>
-<script src="//cdn.bootcss.com/codemirror/5.19.0/mode/markdown/markdown.min.js"></script>
-<script type="text/javascript" src="//cdn.bootcss.com/plupload/2.1.9/plupload.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.40.2/lib/codemirror.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.40.2/mode/markdown/markdown.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/plupload@2.2.1/js/plupload.full.min.js"></script>
 <script type="text/javascript">
 window.onload = function () {
     var textarea = document.getElementById("id_content");
@@ -69,7 +69,7 @@ window.onload = function () {
             runtimes : 'html5,flash',
             browse_button : document.getElementById('upbtn'),
             url : "{% url 'archive:upload-images' %}",
-            flash_swf_url : "//cdn.bootcss.com/plupload/2.1.9/Moxie.swf",
+            flash_swf_url : "https://cdn.jsdelivr.net/npm/plupload@2.2.1/js/Moxie.swf",
             filters : {
                 max_file_size : '5mb',
                 mime_types: [
