@@ -109,7 +109,10 @@ class XssHtml(HTMLParser):
     def node_a(self, attrs):
         attrs = self._common_attr(attrs)
         attrs = self._get_link(attrs, "href")
-        attrs = self._set_attr_default(attrs, "target", "_blank")
+
+        if 'href' in attrs and (attrs['href'].startswith('http://') or attrs['href'].startswith('https://')):
+            attrs = self._set_attr_default(attrs, "target", "_blank")
+
         attrs = self._limit_attr(attrs, {
             "target": ["_blank", "_self"]
         })
