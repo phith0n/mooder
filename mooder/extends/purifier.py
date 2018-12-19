@@ -134,6 +134,8 @@ class XssHtml(HTMLParser):
         prog = re.compile(r"^(http|https|ftp)://.+", re.I | re.S)
         if prog.match(url):
             return url
+        elif url.startswith('#'):
+            return url
         else:
             return "http://%s" % url
 
