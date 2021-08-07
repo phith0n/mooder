@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, reverse, get_object_or_404, render_to_response, render
+from django.shortcuts import redirect, reverse, get_object_or_404, render
 from django.urls import reverse_lazy
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth import get_user_model

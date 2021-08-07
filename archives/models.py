@@ -124,7 +124,7 @@ class Comment(models.Model):
     content = models.TextField('评论')
     post = models.ForeignKey(Post, verbose_name='文章', on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='作者', on_delete=models.CASCADE)
-    parent = models.ForeignKey('self', verbose_name='父评论', blank=True, null=True)
+    parent = models.ForeignKey('self', verbose_name='父评论', blank=True, null=True, on_delete=models.SET_NULL)
 
     created_time = models.DateTimeField('创建时间', auto_now_add=True)
     last_modify_time = models.DateTimeField('修改时间', auto_now=True)
@@ -228,8 +228,8 @@ class Gift(models.Model):
 
 
 class GiftLog(models.Model):
-    gift = models.ForeignKey(Gift, verbose_name='礼物')
-    buyer = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='购买者')
+    gift = models.ForeignKey(Gift, verbose_name='礼物', on_delete=models.CASCADE)
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='购买者', on_delete=models.CASCADE)
     cost = models.PositiveIntegerField('花费')
     delivery = models.BooleanField('发货', default=False)
 

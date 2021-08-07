@@ -29,8 +29,8 @@
                             <div class="form-group">
                                 <!-- Log In Button -->
                                 <button type="submit" class="btn btn-red">登录</button>
-                                <a style="margin-left: 10px" href="{% url 'registration_register' %}">点击注册</a>
-                                <a style="margin-left: 10px" href="{% url 'password_reset' %}">忘记密码？</a>
+                                <a style="margin-left: 10px" href="{% url 'accounts:registration_register' %}">点击注册</a>
+                                <a style="margin-left: 10px" href="{% url 'accounts:password_reset' %}">忘记密码？</a>
                             </div>
                             {% csrf_token %}
                         </form>

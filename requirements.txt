@@ -1,11 +1,12 @@
 -i https://pypi.tuna.tsinghua.edu.cn/simple
-django<2.0.0
+django
 markdown
 django-markup
 django-pure-pagination
 django-simple-captcha
 django-bootstrap3
 django-registration-redux
-django-mailgun
+django-anymail[mailgun]
 pytz
-psycopg2
+psycopg2-binary
+python-dotenv

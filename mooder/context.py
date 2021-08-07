@@ -1,4 +1,3 @@
-from django.core.urlresolvers import resolve
 from archives.models import Link
 from django.conf import settings
 
@@ -8,7 +7,7 @@ def global_site_context(request):
     return {
         'website': settings.SITE,
         'view': {
-            'name': resolve(request.path).view_name
+            'name': request.resolver_match.view_name
         },
         'links': links
     }
