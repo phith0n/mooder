@@ -1,6 +1,6 @@
 function submit(action_url) {
-    var f = $('<form method="post"></form>');
-    var xsrf = $("{% csrf_token %}");
+    let f = $('<form method="post"></form>');
+    const xsrf = $(`{% csrf_token %}`);
     f.append(xsrf);
     f.prop('action', action_url);
     f.appendTo('body').submit();

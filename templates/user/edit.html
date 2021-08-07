@@ -33,7 +33,7 @@
             </div>
           {% csrf_token %}
             <div class="am-btn-group am-fr am-margin-right-lg am-margin-top">
-              <a href="{% url 'password_change' %}" class="am-btn am-btn-primary">修改密码</a>
+              <a href="{% url 'accounts:password_change' %}" class="am-btn am-btn-primary">修改密码</a>
               <button type="button" onclick="history.back(-1)" class="am-btn am-btn-default">返回</button>
               <button type="submit" class="am-btn am-btn-default">提交</button>
             </div>

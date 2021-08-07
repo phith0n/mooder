@@ -80,7 +80,7 @@
             {% if request.user.is_auditor or request.user.is_staff %}
             <li><a href="{% url 'management-index' %}">后台管理</a></li>
             {% endif %}
-            <li><a href="{% url 'logout' %}">退出</a></li>
+            <li><a href="{% url 'accounts:logout' %}">退出</a></li>
         </ul>
       </div>
     </div>

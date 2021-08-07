@@ -24,17 +24,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if os.path.exists(os.path.join(BASE_DIR, '.secretkey')):
     with open(os.path.join(BASE_DIR, '.secretkey'), 'rb') as f:
         SECRET_KEY = f.read()
+else:
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'mooder')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    'registration',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,9 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.sites',
+    'registration',
     'django_markup',
     'pure_pagination',
     'bootstrap3',
+    'anymail',
     'captcha',
     'accounts',
     'archives',
@@ -97,11 +101,11 @@ DATABASES = {
     }
 }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 # Mailgun api
 EMAIL_HOST_USER = 'no-reply@example.com'
-EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
-MAILGUN_ACCESS_KEY = 'mailgun-api-key'
-MAILGUN_SERVER_NAME = 'example.com'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Password validation
@@ -148,7 +152,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mooder', 'media_cdn')
 
 AUTH_USER_MODEL = 'accounts.Member'
 
-LOGIN_URL = reverse_lazy('login')
+LOGIN_URL = reverse_lazy('accounts:login')
 LOGIN_REDIRECT_URL = reverse_lazy('archive:index')
 
 # MARKDOWN_DEUX_STYLES = {

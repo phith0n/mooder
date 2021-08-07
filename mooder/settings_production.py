@@ -18,11 +18,15 @@ DATABASES = {
 }
 
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
-if EMAIL_BACKEND=='django_mailgun.MailgunBackend':
-    MAILGUN_ACCESS_KEY = os.environ.get('MAILGUN_ACCESS_KEY')
-    MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME')
+
+if EMAIL_BACKEND == 'anymail.backends.mailgun.EmailBackend':
+    ANYMAIL = {
+        # (exact settings here depend on your ESP...)
+        "MAILGUN_API_KEY": os.environ.get('MAILGUN_ACCESS_KEY'),
+        'MAILGUN_SENDER_DOMAIN': os.environ.get('MAILGUN_SERVER_NAME')
+    }
 
 if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
     EMAIL_HOST = os.environ.get('EMAIL_HOST')
@@ -40,4 +44,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'mooder', 'static_cdn')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/data'
+MEDIA_ROOT = '/data/'
