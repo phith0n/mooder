@@ -10,3 +10,5 @@ django-anymail[mailgun]
 pytz
 psycopg2-binary
 python-dotenv
+gunicorn
+gevent

@@ -1,4 +1,0 @@
---working-directory .
---url-alias /static mooder/static_cdn
---application-type module
-mooder.wsgi

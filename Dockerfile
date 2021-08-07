@@ -1,18 +1,14 @@
-FROM grahamdumpleton/mod-wsgi-docker:python-3.5
+FROM python:3.8
 
 WORKDIR /app
+COPY requirements.txt /tmp/requirements.txt
+
+RUN set -ex \
+    && apt-get update \
+    && apt-get install --no-install-recommends -y libpq-dev libjpeg-dev zlib1g-dev libfreetype6-dev wait-for-it \
+    && pip install -r /tmp/requirements.txt
 
 COPY . /app
-
-RUN chmod +x .whiskey/action_hooks/deploy
-RUN chmod +x .whiskey/action_hooks/pre-build
-RUN chmod +x .whiskey/action_hooks/build
-RUN chown $MOD_WSGI_USER:$MOD_WSGI_GROUP -R /data
-
-RUN mod_wsgi-docker-build
-
 EXPOSE 80
 
-ENTRYPOINT [ "mod_wsgi-docker-start" ]
-
-VOLUME ["/data"]
+CMD ["bash", "/app/docker-entrypoint.sh"]
