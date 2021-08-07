@@ -27,9 +27,9 @@
                 <a href="{% url 'management-user-coin-log' uid=user.id %}" class="btn btn-info btn-xs" role="button">金币日志</a>
                 <a href="{{ user.get_absolute_url }}" target="_blank" class="btn btn-warning btn-xs">前台</a>
                 {% if user.is_active %}
-                <a href="javascript:submit('{% url 'management-user-ban' pk=user.id %}')" target="_blank" class="btn btn-danger btn-xs confirm-alert">禁用</a>
+                <a href="javascript:submit('{% url 'management-user-ban' pk=user.id %}')" class="btn btn-danger btn-xs confirm-alert">禁用</a>
                 {% else %}
-                <a href="javascript:submit('{% url 'management-user-ban' pk=user.id %}')" target="_blank" class="btn btn-default btn-xs confirm-alert">启用</a>
+                <a href="javascript:submit('{% url 'management-user-ban' pk=user.id %}')" class="btn btn-default btn-xs confirm-alert">启用</a>
                 {% endif %}
             </td>
         </tr>
