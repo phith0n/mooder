@@ -13,11 +13,11 @@
         <button type="submit" class="btn btn-primary">
             <span class="fa-edit fa"></span> 修改
         </button>
-        {% ifequal post.verify 'wait' %}
+        {% if post.verify == 'wait' %}
         <button type="submit" onclick="return submit_and_verify()" class="btn btn-primary">
             <span class="fa-star fa"></span> 修改并审核
         </button>
-        {% endifequal %}
+        {% endif %}
     {% endbuttons %}
     <input type="hidden" name="return_url" value="{{ request.META.HTTP_REFERER }}">
 </form>

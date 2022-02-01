@@ -103,14 +103,14 @@
 
         <form class="am-form" method="post">
             {% for field in comment_form %}
-            {% ifequal field.field.widget.input_type 'hidden' %}
+            {% if field.field.widget.input_type == 'hidden' %}
             {{ field }}
             {% else %}
             <div class="am-form-group">
               {% ifnotequal field.name 'captcha' %}<label>{{ field.label }}</label>{% endifnotequal %}
               {{ field | css:"am-form-field" }}
             </div>
-            {% endifequal %}
+            {% endif %}
             {% endfor %}
             <div class="am-cf"></div>
             <button type="submit" class="am-btn am-btn-default am-btn-block am-btn-xs am-margin-top">提交</button>

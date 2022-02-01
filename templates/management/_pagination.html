@@ -8,7 +8,7 @@
 
   {% for page in page_obj.pages %}
     {% if page %}
-    <li {% ifequal page_obj.number page %}class="active"{% endifequal %}><a href="?page={{ page }}">{{ page }}</a></li>
+    <li {% if page_obj.number == page %}class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
     {% else %}
     <li class="disabled"><span>...</span></li>
     {% endif %}
